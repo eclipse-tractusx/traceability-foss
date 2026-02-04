@@ -34,9 +34,13 @@ SPDX-License-Identifier: Apache-2.0
       matInput
       type="datetime-local"
       placeholder="start date"
-    />
-    <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
-    <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
+      />
+    @if (matcher.isErrorState(control)) {
+      <mat-icon color="warn" matSuffix>error_outline</mat-icon>
+    }
+    @if (hint) {
+      <mat-hint align="start">{{ hint }}</mat-hint>
+    }
     <mat-error>
       <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
     </mat-error>

@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { CoreModule } from '@core/core.module';
 import { environment } from '@env';
@@ -39,6 +39,6 @@ if (window['Zone']) {
 
 function bootstrap() {
   platformBrowserDynamic()
-    .bootstrapModule(CoreModule)
+    .bootstrapModule(CoreModule, { applicationProviders: [provideZoneChangeDetection()], })
     .catch(err => console.error(err));
 }

@@ -30,12 +30,16 @@ SPDX-License-Identifier: Apache-2.0
       {{ message | i18n }}
     </h3>
 
-    <a *ngIf="actionLabel != ''" href="{{ actionUrl }}">
-      <app-button [variant]="'raised'" [color]="'primary'">{{ actionLabel | i18n }}</app-button>
-    </a>
+    @if (actionLabel != '') {
+      <a href="{{ actionUrl }}">
+        <app-button [variant]="'raised'" [color]="'primary'">{{ actionLabel | i18n }}</app-button>
+      </a>
+    }
 
-    <a *ngIf="showSignOutButton" (click)="this.logOut()">
-      <app-button [variant]="'raised'" [color]="'primary'">{{ 'layout.nav.signOut' | i18n }}</app-button>
-    </a>
+    @if (showSignOutButton) {
+      <a (click)="this.logOut()">
+        <app-button [variant]="'raised'" [color]="'primary'">{{ 'layout.nav.signOut' | i18n }}</app-button>
+      </a>
+    }
   </div>
 </div>

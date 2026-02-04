@@ -21,31 +21,36 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #Modal>
   <p class="mb-2">{{ 'pageAdmin.bpnConfig.modal.description' | i18n }}</p>
-  <div *ngIf="changedInformation$ | async as changedInfo" class="save-modal--container">
-    <div *ngFor="let deleted of changedInfo.deleted" class="changed-info deleted">
-      <p class="indicator">-</p>
-      <p>{{ deleted.bpn }}</p>
-      <p>{{ deleted.url }}</p>
+  @if (changedInformation$ | async; as changedInfo) {
+    <div class="save-modal--container">
+      @for (deleted of changedInfo.deleted; track deleted) {
+        <div class="changed-info deleted">
+          <p class="indicator">-</p>
+          <p>{{ deleted.bpn }}</p>
+          <p>{{ deleted.url }}</p>
+        </div>
+      }
+      @for (added of changedInfo.added; track added) {
+        <div class="changed-info added">
+          <p class="indicator">+</p>
+          <p>{{ added.bpn }}</p>
+          <p>{{ added.url }}</p>
+        </div>
+      }
+      @for (changed of changedInfo.changed; track changed) {
+        @if (getOriginalValue(changed); as original) {
+          <div class="changed-info deleted changed-top">
+            <p class="indicator">-</p>
+            <p>{{ original.bpn }}</p>
+            <p>{{ original.url }}</p>
+          </div>
+        }
+        <div class="changed-info added changed-bottom">
+          <p class="indicator">+</p>
+          <p></p>
+          <p>{{ changed.url }}</p>
+        </div>
+      }
     </div>
-
-    <div *ngFor="let added of changedInfo.added" class="changed-info added">
-      <p class="indicator">+</p>
-      <p>{{ added.bpn }}</p>
-      <p>{{ added.url }}</p>
-    </div>
-
-    <ng-container *ngFor="let changed of changedInfo.changed">
-      <div *ngIf="getOriginalValue(changed) as original" class="changed-info deleted changed-top">
-        <p class="indicator">-</p>
-        <p>{{ original.bpn }}</p>
-        <p>{{ original.url }}</p>
-      </div>
-
-      <div class="changed-info added changed-bottom">
-        <p class="indicator">+</p>
-        <p></p>
-        <p>{{ changed.url }}</p>
-      </div>
-    </ng-container>
-  </div>
+  }
 </ng-template>

@@ -26,11 +26,15 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *ngTemplateOutlet="renderWithRenderer; context: { value: control.value }"></ng-container>
     </mat-select-trigger>
 
-    <mat-option *ngFor="let option of options" [value]="option.value || option.label">
-      <ng-container *ngTemplateOutlet="renderWithRenderer; context: { value: option.label }"></ng-container>
-    </mat-option>
+    @for (option of options; track option) {
+      <mat-option [value]="option.value || option.label">
+        <ng-container *ngTemplateOutlet="renderWithRenderer; context: { value: option.label }"></ng-container>
+      </mat-option>
+    }
   </mat-select>
-  <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
+  @if (hint) {
+    <mat-hint align="start">{{ hint }}</mat-hint>
+  }
   <mat-error>
     <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
   </mat-error>

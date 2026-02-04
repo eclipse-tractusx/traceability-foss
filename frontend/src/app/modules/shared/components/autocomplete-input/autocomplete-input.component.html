@@ -27,14 +27,14 @@ SPDX-License-Identifier: Apache-2.0
     [placeholder]="'multiSelect.searchPlaceholder' | i18n"
     (input)="onInput($event)"
     [value]="isDropdownOpen ? typedValue : displaySelectedItemsTruncated()"
-  />
+    />
 
   <button
     mat-icon-button
     matSuffix
     (click)="clearInput()"
     aria-label="Clear search"
-  >
+    >
     <mat-icon>close</mat-icon>
   </button>
 
@@ -44,36 +44,39 @@ SPDX-License-Identifier: Apache-2.0
     (closed)="onAutocompleteClosed()"
     (opened)="onAutocompleteOpened()"
     (optionSelected)="selected($event)"
-  >
+    >
     <mat-option
       class="select-all-option"
       [disabled]="filteredItemsList.length === 0"
-    >
+      >
       <mat-checkbox
         [checked]="areAllSelected()"
         (click)="onSelectAllClicked($event)"
-      >
+        >
         {{ 'filter.select-all' | i18n }}
       </mat-checkbox>
     </mat-option>
 
     <mat-divider></mat-divider>
 
-    <mat-option *ngIf="filteredItemsList.length === 0" [disabled]="true">
-      No suggested values
-    </mat-option>
+    @if (filteredItemsList.length === 0) {
+      <mat-option [disabled]="true">
+        No suggested values
+      </mat-option>
+    }
 
-    <mat-option
-      *ngFor="let item of filteredItemsList"
-      [value]="item"
-      class="select-option"
-    >
-      <mat-checkbox
-        [checked]="items.includes(item)"
-        (click)="onCheckboxClicked($event, item)"
-      >
-        {{ item }}
-      </mat-checkbox>
-    </mat-option>
+    @for (item of filteredItemsList; track item) {
+      <mat-option
+        [value]="item"
+        class="select-option"
+        >
+        <mat-checkbox
+          [checked]="items.includes(item)"
+          (click)="onCheckboxClicked($event, item)"
+          >
+          {{ item }}
+        </mat-checkbox>
+      </mat-option>
+    }
   </mat-autocomplete>
 </mat-form-field>

@@ -23,41 +23,53 @@ SPDX-License-Identifier: Apache-2.0
   <mat-form-field [style.fontSize]="'16'" appearance="fill">
     <mat-label>{{ label }}</mat-label>
     <input #inputElement [formControl]="control" [attr.data-testId]="htmlId" [errorStateMatcher]="matcher" matInput />
-    <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
-    <mat-icon
-      *ngIf="!matcher.isErrorState(control) && suffixIcon"
-      [color]="suffixIconColor"
-      [class.cursor-pointer]="suffixIconHover"
-      [attr.data-testId]="htmlId + '-icon'"
-      onkeydown="suffixIconClick.emit()"
-      (click)="suffixIconClick.emit()"
-      matSuffix
-    >{{ suffixIcon }}</mat-icon
-    >
-    <mat-icon
-      *ngIf="!matcher.isErrorState(control) && displayClearButton"
-      [color]="suffixIconColor"
-      [class.cursor-pointer]="suffixIconHover"
-      [attr.data-testId]="htmlId + '-icon-clear'"
-      onkeydown="clearIconClick()"
-      (click)="clearIconClick()"
-      matSuffix
-    >clear
-    </mat-icon
-    >
+    @if (matcher.isErrorState(control)) {
+      <mat-icon color="warn" matSuffix>error_outline</mat-icon>
+    }
+    @if (!matcher.isErrorState(control) && suffixIcon) {
+      <mat-icon
+        [color]="suffixIconColor"
+        [class.cursor-pointer]="suffixIconHover"
+        [attr.data-testId]="htmlId + '-icon'"
+        onkeydown="suffixIconClick.emit()"
+        (click)="suffixIconClick.emit()"
+        matSuffix
+        >{{ suffixIcon }}</mat-icon
+        >
+      }
+      @if (!matcher.isErrorState(control) && displayClearButton) {
+        <mat-icon
+          [color]="suffixIconColor"
+          [class.cursor-pointer]="suffixIconHover"
+          [attr.data-testId]="htmlId + '-icon-clear'"
+          onkeydown="clearIconClick()"
+          (click)="clearIconClick()"
+          matSuffix
+          >clear
+          </mat-icon
+          >
+        }
 
-    <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
-    <mat-hint align="end" *ngIf="!!maxLength && !!minLength">{{
-      'input.minMaxLengthHint' | i18n : {current: control?.value?.length || 0, max: maxLength, min: minLength}
-      }}</mat-hint>
-    <mat-hint align="end" *ngIf="!maxLength && !!minLength">{{
-      'input.minLengthHint' | i18n : {current: control?.value?.length || 0, min: minLength}
-      }}</mat-hint>
-    <mat-hint align="end" *ngIf="!!maxLength && !minLength">{{
-      'input.maxLengthHint' | i18n : {rest: maxLength - (control?.value?.length || 0)}
-      }}</mat-hint>
-    <mat-error>
-      <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
-    </mat-error>
-  </mat-form-field>
-</div>
+        @if (hint) {
+          <mat-hint align="start">{{ hint }}</mat-hint>
+        }
+        @if (!!maxLength && !!minLength) {
+          <mat-hint align="end">{{
+            'input.minMaxLengthHint' | i18n : {current: control?.value?.length || 0, max: maxLength, min: minLength}
+          }}</mat-hint>
+        }
+        @if (!maxLength && !!minLength) {
+          <mat-hint align="end">{{
+            'input.minLengthHint' | i18n : {current: control?.value?.length || 0, min: minLength}
+          }}</mat-hint>
+        }
+        @if (!!maxLength && !minLength) {
+          <mat-hint align="end">{{
+            'input.maxLengthHint' | i18n : {rest: maxLength - (control?.value?.length || 0)}
+          }}</mat-hint>
+        }
+        <mat-error>
+          <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
+        </mat-error>
+      </mat-form-field>
+    </div>

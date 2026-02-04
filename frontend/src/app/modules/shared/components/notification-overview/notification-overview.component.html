@@ -24,24 +24,35 @@ SPDX-License-Identifier: Apache-2.0
     <span class="card-list--key detail--text__bold">{{ 'table.column.id' | i18n }}</span>
     <span class="card-list--value" title="{{ notification?.id }}">{{ notification?.id }}</span>
   </div>
-  <div *ngIf="showNotification" class="card-list--row">
-    <span class="card-list--key detail--text__bold">{{ 'table.column.title' | i18n }}</span>
-    <span data-testId="title-view" class="card-list--value detail--text__title" title="{{ notification?.title }}">{{
+  @if (showNotification) {
+    <div class="card-list--row">
+      <span class="card-list--key detail--text__bold">{{ 'table.column.title' | i18n }}</span>
+      <span data-testId="title-view" class="card-list--value detail--text__title" title="{{ notification?.title }}">{{
         notification?.title
       }}</span>
-  </div>
-  <div *ngIf="showNotification" class="card-list--row">
-    <span class="card-list--key detail--text__bold">{{ 'table.column.description' | i18n }}</span>
-    <span data-testId="description-view" class="card-list--value detail--text__description"
-          title="{{ notification?.description }}">{{
+    </div>
+  }
+  @if (showNotification) {
+    <div class="card-list--row">
+      <span class="card-list--key detail--text__bold">{{ 'table.column.description' | i18n }}</span>
+      <span data-testId="description-view" class="card-list--value detail--text__description"
+        title="{{ notification?.description }}">{{
         notification?.description
       }}</span>
-  </div>
+    </div>
+  }
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.status' | i18n }}</span>
-    <ng-container *ngIf="notificationProcessingService.isInLoadingProcess(notification); else statusTmp">
+    @if (notificationProcessingService.isInLoadingProcess(notification)) {
       <ng-container *ngTemplateOutlet="loadingTmp"></ng-container>
-    </ng-container>
+    } @else {
+      <span data-testId="description-status"
+        class="notification-status card-list--value notification-status--{{ notification?.status }}"
+        title="{{ 'commonAlert.status.' + notification?.status | i18n }}"
+        >
+        {{ 'commonAlert.status.' + notification?.status | i18n }}
+      </span>
+    }
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.createdDate' | i18n }}</span>
@@ -68,26 +79,28 @@ SPDX-License-Identifier: Apache-2.0
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.sendTo' | i18n }}</span>
     <span class="card-list--value">
-        <span data-testId="sendTo-view">{{ notification.sendTo }}</span>
+      <span data-testId="sendTo-view">{{ notification.sendTo }}</span>
     </span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.sendToName' | i18n }}</span>
     <span class="card-list--value">
-        <span data-testId="sendToName-view">{{ notification.sendToName }}</span>
+      <span data-testId="sendToName-view">{{ notification.sendToName }}</span>
     </span>
   </div>
 
-  <div *ngIf="notification?.targetDate" class="card-list--row">
-    <span class="card-list--key detail--text__bold">{{ 'table.column.targetDate' | i18n }}</span>
-    <ng-container
-      data-testId="targetDate-view"
-      [ngTemplateOutlet]="dateTmp"
+  @if (notification?.targetDate) {
+    <div class="card-list--row">
+      <span class="card-list--key detail--text__bold">{{ 'table.column.targetDate' | i18n }}</span>
+      <ng-container
+        data-testId="targetDate-view"
+        [ngTemplateOutlet]="dateTmp"
       [ngTemplateOutletContext]="{
         value: notification.targetDate | date:'medium'
       }"
-    ></ng-container>
-  </div>
+      ></ng-container>
+    </div>
+  }
 
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.severity' | i18n }}</span>
@@ -110,23 +123,15 @@ SPDX-License-Identifier: Apache-2.0
   <span class="card-list--value" title="{{ date }}">{{ date }}</span>
 </ng-template>
 
-<ng-template #statusTmp>
-      <span data-testId="description-status"
-            class="notification-status card-list--value notification-status--{{ notification?.status }}"
-            title="{{ 'commonAlert.status.' + notification?.status | i18n }}"
-      >
-      {{ 'commonAlert.status.' + notification?.status | i18n }}
-    </span>
-</ng-template>
 
 <ng-template #loadingTmp>
   <span class="card-list--value"
-        matTooltip="{{ 'actions.notificationInProgress' | i18n}}"
-        matTooltipClass="table--header--tooltip"
-        matTooltipPosition="above"
-        [class.mdc-tooltip--multiline]="true"
-        [matTooltipShowDelay]="1000"
-  >
-      <mat-spinner diameter="28"></mat-spinner>
+    matTooltip="{{ 'actions.notificationInProgress' | i18n}}"
+    matTooltipClass="table--header--tooltip"
+    matTooltipPosition="above"
+    [class.mdc-tooltip--multiline]="true"
+    [matTooltipShowDelay]="1000"
+    >
+    <mat-spinner diameter="28"></mat-spinner>
   </span>
 </ng-template>

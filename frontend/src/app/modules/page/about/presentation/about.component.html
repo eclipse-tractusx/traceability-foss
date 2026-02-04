@@ -25,42 +25,54 @@ SPDX-License-Identifier: Apache-2.0
       <h3 class="title-text" onkeydown="openLink(repositoryPath)" (click)="openLink(repositoryPath)">
         {{ name }}
         <mat-icon class="ml-1.5 part-detail--relation__icon"
-        >open_in_new
+          >open_in_new
         </mat-icon>
       </h3>
-      <div *ngIf="imprintPath" class="link-text" onkeydown="openLink(imprintPath)" (click)="openLink(imprintPath)">
-        {{'pageAbout.imprint'|i18n}}
-        <mat-icon class="part-detail--relation__icon"
-        >open_in_new
-        </mat-icon>
-      </div>
-      <div *ngIf="privacyPath" class="link-text" onkeydown="openLink(privacyPath)" (click)="openLink(privacyPath)">
-        {{'pageAbout.privacy'|i18n}}
-        <mat-icon class="part-detail--relation__icon"
-        >open_in_new
-        </mat-icon>
-      </div>
-      <div *ngIf="license && licensePath" class="link-text" onkeydown="openLink(licensePath)" (click)="openLink(licensePath)">
-        License {{ license }}
-        <mat-icon class="part-detail--relation__icon"
-        >open_in_new
-        </mat-icon>
-      </div>
-      <div *ngIf="noticePath" class="link-text" onkeydown="openLink(noticePath)" (click)="openLink(noticePath)">
-        Notice
-        <mat-icon class="part-detail--relation__icon"
-        >open_in_new
-        </mat-icon>
-      </div>
-      <div *ngIf="sourcePath" class="link-text" onkeydown="openLink(sourcePath)" (click)="openLink(sourcePath)">
-        Source
-        <mat-icon class="part-detail--relation__icon"
-        >open_in_new
-        </mat-icon>
-      </div>
-      <div *ngIf="commitId" class="commit-id">
-        Commit ID: {{ commitId }}
-      </div>
+      @if (imprintPath) {
+        <div class="link-text" onkeydown="openLink(imprintPath)" (click)="openLink(imprintPath)">
+          {{'pageAbout.imprint'|i18n}}
+          <mat-icon class="part-detail--relation__icon"
+            >open_in_new
+          </mat-icon>
+        </div>
+      }
+      @if (privacyPath) {
+        <div class="link-text" onkeydown="openLink(privacyPath)" (click)="openLink(privacyPath)">
+          {{'pageAbout.privacy'|i18n}}
+          <mat-icon class="part-detail--relation__icon"
+            >open_in_new
+          </mat-icon>
+        </div>
+      }
+      @if (license && licensePath) {
+        <div class="link-text" onkeydown="openLink(licensePath)" (click)="openLink(licensePath)">
+          License {{ license }}
+          <mat-icon class="part-detail--relation__icon"
+            >open_in_new
+          </mat-icon>
+        </div>
+      }
+      @if (noticePath) {
+        <div class="link-text" onkeydown="openLink(noticePath)" (click)="openLink(noticePath)">
+          Notice
+          <mat-icon class="part-detail--relation__icon"
+            >open_in_new
+          </mat-icon>
+        </div>
+      }
+      @if (sourcePath) {
+        <div class="link-text" onkeydown="openLink(sourcePath)" (click)="openLink(sourcePath)">
+          Source
+          <mat-icon class="part-detail--relation__icon"
+            >open_in_new
+          </mat-icon>
+        </div>
+      }
+      @if (commitId) {
+        <div class="commit-id">
+          Commit ID: {{ commitId }}
+        </div>
+      }
     </div>
   </div>
   <section

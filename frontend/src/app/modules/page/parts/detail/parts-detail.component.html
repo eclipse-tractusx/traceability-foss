@@ -25,26 +25,26 @@ SPDX-License-Identifier: Apache-2.0
       [color]="'primary'"
       onkeydown="this.navigateToParentPath()"
       (click)="this.navigateToParentPath()"
-    >
+      >
       <div class="flex justify-between items-center">
         <mat-icon class="back-icon">arrow_back</mat-icon>
         {{ 'actions.goBack' | i18n }}
       </div>
     </app-button>
 
-    <ng-container *ngIf="breadcrumbData$ | async as breadcrumb">
+    @if (breadcrumbData$ | async; as breadcrumb) {
       <app-breadcrumb
         [variant]="breadcrumb.variant"
         [partName]="breadcrumb.partName"
         [uuid]="breadcrumb.uuid"
       ></app-breadcrumb>
-    </ng-container>
+    }
   </div>
 </div>
 
 <div class="part-detail--header--container flex flex-row justify-between items-center">
   <div class="part-detail--header--navigation--container">
-    <ng-container *ngIf="selectedPartDetails$ | async as partDetails">
+    @if (selectedPartDetails$ | async; as partDetails) {
       <div class="flex items-center space-x-2">
         <div class="svg-icon-wrapper">
           <mat-icon [svgIcon]="svgIconName"></mat-icon>
@@ -52,39 +52,42 @@ SPDX-License-Identifier: Apache-2.0
         <span class="text-xl font-semibold">
           {{ partDetails.data?.nameAtManufacturer }}
         </span>
-        <span *ngIf="partDetails.data?.owner" class="own-part-badge">
-          {{ 'partDetail.ownerLabels.' + partDetails.data.owner | i18n }}
-        </span>
+        @if (partDetails.data?.owner) {
+          <span class="own-part-badge">
+            {{ 'partDetail.ownerLabels.' + partDetails.data.owner | i18n }}
+          </span>
+        }
       </div>
-    </ng-container>
+    }
   </div>
   <div class="part-detail--header--action--container flex flex-row justify-center items-center gap-2">
-      <!-- Incident Button -->
+    <!-- Incident Button -->
+    @if (shouldShowIncidentButton()) {
       <app-button
-      *ngIf="shouldShowIncidentButton()"
-      class="rounded-button pill-button"
-      iconName="announcement"
-      variant="flat"
-      type="button"
-      color="primary"
-      [useGap]="true"
-      [useWhiteText]="true"
-      [isDisabled]="isIncidentActionAllowed()"
-      (click)="navigateToNotificationCreationView()"
-      (keydown.enter)="navigateToNotificationCreationView()"
-      [matTooltip]="incidentCreationTooltipMessage | i18n"
-      matTooltipClass="table--header--tooltip"
-      matTooltipPosition="above"
-      [class.mdc-tooltip--multiline]="true"
-      [matTooltipShowDelay]="500"
-    >
-      {{ incidentCreationTooltipMessage | i18n }}
-    </app-button>
+        class="rounded-button pill-button"
+        iconName="announcement"
+        variant="flat"
+        type="button"
+        color="primary"
+        [useGap]="true"
+        [useWhiteText]="true"
+        [isDisabled]="isIncidentActionAllowed()"
+        (click)="navigateToNotificationCreationView()"
+        (keydown.enter)="navigateToNotificationCreationView()"
+        [matTooltip]="incidentCreationTooltipMessage | i18n"
+        matTooltipClass="table--header--tooltip"
+        matTooltipPosition="above"
+        [class.mdc-tooltip--multiline]="true"
+        [matTooltipShowDelay]="500"
+        >
+        {{ incidentCreationTooltipMessage | i18n }}
+      </app-button>
+    }
 
 
-      <!-- Publish Asset Button -->
+    <!-- Publish Asset Button -->
+    @if (shouldShowPublishButton()) {
       <app-button
-        *ngIf="shouldShowPublishButton()"
         class="rounded-button pill-button"
         iconName="published_with_changes"
         variant="flat"
@@ -99,13 +102,14 @@ SPDX-License-Identifier: Apache-2.0
         matTooltipPosition="above"
         [class.mdc-tooltip--multiline]="true"
         [matTooltipShowDelay]="500"
-      >
-      {{ 'routing.publishAssets' | i18n }}
+        >
+        {{ 'routing.publishAssets' | i18n }}
       </app-button>
+    }
 
-      <!-- Sync Asset Button -->
+    <!-- Sync Asset Button -->
+    @if (shouldShowSyncButton()) {
       <app-button
-        *ngIf="shouldShowSyncButton()"
         class="rounded-button sync-button"
         [isDisabled]="isSyncButtonDisabled()"
         onkeydown="syncSelectedPart()"
@@ -116,12 +120,13 @@ SPDX-License-Identifier: Apache-2.0
         matTooltipPosition="above"
         [class.mdc-tooltip--multiline]="true"
         [matTooltipShowDelay]="500"
-      >
+        >
         <div class="pill-button-content">
           <mat-icon>published_with_changes</mat-icon>
           {{ 'routing.syncPart' | i18n }}
         </div>
       </app-button>
+    }
 
 
   </div>
@@ -157,40 +162,42 @@ SPDX-License-Identifier: Apache-2.0
       ></ng-container>
     </div>
 
-    <div
-      class="part-detail--traction-battery tractionbattery"
-      *ngIf="(selectedPartDetails$ | async)?.data?.tractionBatteryCode"
-    >
-      <ng-container
+    @if ((selectedPartDetails$ | async)?.data?.tractionBatteryCode) {
+      <div
+        class="part-detail--traction-battery tractionbattery"
+        >
+        <ng-container
         *viewContainer="
           tractionBatteryDetails$ | async;
           main: tractionBatteryDetailsMainTmp;
           error: errorTmp;
           loading: loaderTmp
         "
-      >
-      </ng-container>
-    </div>
-    <div
-      class="part-detail--part-info--import-state import-state"
-      *ngIf="this.roleService.isAdmin()"
-    >
-      <ng-container
+          >
+        </ng-container>
+      </div>
+    }
+    @if (this.roleService.isAdmin()) {
+      <div
+        class="part-detail--part-info--import-state import-state"
+        >
+        <ng-container
         *viewContainer="
           recordInformation$ | async;
           main: recordInformationMainTmp;
           error: errorTmp;
           loading: loaderTmp
         "
-      >
-      </ng-container>
-    </div>
+          >
+        </ng-container>
+      </div>
+    }
   </div>
   <div class="part-detail--right-container">
     <div class="part-detail--part-info--relation relation">
       <ng-container
         *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
-      >
+        >
       </ng-container>
     </div>
   </div>
@@ -233,7 +240,7 @@ SPDX-License-Identifier: Apache-2.0
                   mat-table
                   [dataSource]="(tractionBatterySubcomponents$ | async)?.data.subcomponents"
                   aria-describedby="tractionBatteryCodeSubcomponentsTable"
-                >
+                  >
                   <ng-container matColumnDef="position">
                     <th mat-header-cell *matHeaderCellDef>{{ 'partDetail.position' | i18n }}</th>
                     <td mat-cell *matCellDef="let i = index">000{{ i + 1 }}</td>
@@ -259,37 +266,40 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #partRelationMainTmp let-partDetails="view">
-  <mat-card *ngIf="showRelation" class="info-card part-detail--relation mt-5">
-    <mat-card-header class="info-card--header">
-      <div class="info-card--header__content">
-        <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
-        <div class="toggle-wrapper">
-          <span class="toggle-wrapper--label">{{ 'Show details table' | i18n }}</span>
-          <mat-slide-toggle class = "toggle-wrapper--slide-toggle" [(ngModel)]="showDetailTable"   [disabled]="!shouldRenderRelatedParts(selectedPartDetails$ | async)" color="primary"></mat-slide-toggle>
+  @if (showRelation) {
+    <mat-card class="info-card part-detail--relation mt-5">
+      <mat-card-header class="info-card--header">
+        <div class="info-card--header__content">
+          <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
+          <div class="toggle-wrapper">
+            <span class="toggle-wrapper--label">{{ 'Show details table' | i18n }}</span>
+            <mat-slide-toggle class = "toggle-wrapper--slide-toggle" [(ngModel)]="showDetailTable"   [disabled]="!shouldRenderRelatedParts(selectedPartDetails$ | async)" color="primary"></mat-slide-toggle>
+          </div>
         </div>
-      </div>
-    </mat-card-header>
-
-    <mat-card-content >
-      <ng-container>
-        <app-part-relation [isStandalone]="false" [showMiniMap]="false" [isAsBuilt]="isAsBuiltPart"></app-part-relation>
-        <mat-icon
-          onkeydown="openRelationPage(partDetails.data)"
-          (click)="openRelationPage(partDetails.data)"
-          class="part-detail--relation__icon"
-          >open_in_new
-        </mat-icon>
-      </ng-container>
-
-    </mat-card-content>
-    <div class="related-parts-tab"  *ngIf="showDetailTable">
-      <app-related-parts-table
-      [showDetailTable]="showDetailTable"
-      *ngIf="shouldRenderRelatedParts(selectedPartDetails$ | async)"
-      [part]="selectedPartDetails$ | async"
-    ></app-related-parts-table>
-</div>
-  </mat-card>
+      </mat-card-header>
+      <mat-card-content >
+        <ng-container>
+          <app-part-relation [isStandalone]="false" [showMiniMap]="false" [isAsBuilt]="isAsBuiltPart"></app-part-relation>
+          <mat-icon
+            onkeydown="openRelationPage(partDetails.data)"
+            (click)="openRelationPage(partDetails.data)"
+            class="part-detail--relation__icon"
+            >open_in_new
+          </mat-icon>
+        </ng-container>
+      </mat-card-content>
+      @if (showDetailTable) {
+        <div class="related-parts-tab" >
+          @if (shouldRenderRelatedParts(selectedPartDetails$ | async)) {
+            <app-related-parts-table
+              [showDetailTable]="showDetailTable"
+              [part]="selectedPartDetails$ | async"
+            ></app-related-parts-table>
+          }
+        </div>
+      }
+    </mat-card>
+  }
 
 </ng-template>
 
@@ -315,43 +325,46 @@ SPDX-License-Identifier: Apache-2.0
 
 <!-- ToDo: this can be split into multiple files and components-->
 <ng-template #partDetailsMainTmp let-partDetails="view">
-      <app-card-list [list]="partDetails.data" [title]="'partDetail.partInformation' | i18n"></app-card-list>
+  <app-card-list [list]="partDetails.data" [title]="'partDetail.partInformation' | i18n"></app-card-list>
 </ng-template>
 
 <ng-template #qualityTypeElement let-item="item">
-  <div
-    *ngIf="item.value"
-    [class.card-list--row]="!showQualityTypeDropdown"
-    [class.card-list--qualityType]="!!showQualityTypeDropdown"
-  >
-    <ng-container *ngIf="!showQualityTypeDropdown">
-      <p class="card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
-      <div
-        (click)="showQualityTypeDropdown = true"
-        (keydown.enter)="showQualityTypeDropdown = true"
-        class="card-list--value card-list--icon"
-        [tabindex]="0"
+  @if (item.value) {
+    <div
+      [class.card-list--row]="!showQualityTypeDropdown"
+      [class.card-list--qualityType]="!!showQualityTypeDropdown"
       >
-        <app-quality-type [type]="qualityTypeControl.value"></app-quality-type>
-        <mat-icon class="ml-2" inline>edit</mat-icon>
-      </div>
-    </ng-container>
-    <div *ngIf="showQualityTypeDropdown" class="card-list--qualityType">
-      <app-select
-        [label]="'partDetail.' + item.key | i18n"
-        [options]="qualityTypeOptions"
-        [formControl]="qualityTypeControl"
-        [optionsRenderer]="qualityTypeOptionTmp"
-      ></app-select>
-      <mat-icon
-        (click)="showQualityTypeDropdown = false"
-        (keydown.enter)="showQualityTypeDropdown = false"
-        tabindex="0"
-        inline
-        >close
-      </mat-icon>
+      @if (!showQualityTypeDropdown) {
+        <p class="card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
+        <div
+          (click)="showQualityTypeDropdown = true"
+          (keydown.enter)="showQualityTypeDropdown = true"
+          class="card-list--value card-list--icon"
+          [tabindex]="0"
+          >
+          <app-quality-type [type]="qualityTypeControl.value"></app-quality-type>
+          <mat-icon class="ml-2" inline>edit</mat-icon>
+        </div>
+      }
+      @if (showQualityTypeDropdown) {
+        <div class="card-list--qualityType">
+          <app-select
+            [label]="'partDetail.' + item.key | i18n"
+            [options]="qualityTypeOptions"
+            [formControl]="qualityTypeControl"
+            [optionsRenderer]="qualityTypeOptionTmp"
+          ></app-select>
+          <mat-icon
+            (click)="showQualityTypeDropdown = false"
+            (keydown.enter)="showQualityTypeDropdown = false"
+            tabindex="0"
+            inline
+            >close
+          </mat-icon>
+        </div>
+      }
     </div>
-  </div>
+  }
 </ng-template>
 
 <ng-template #recordInformationMainTmp let-recordInformation="view">

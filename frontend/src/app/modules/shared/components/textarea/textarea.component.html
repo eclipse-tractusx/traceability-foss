@@ -31,17 +31,27 @@ SPDX-License-Identifier: Apache-2.0
       matInput
 
     ></textarea>
-    <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
-    <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
-    <mat-hint align="end" *ngIf="!!maxLength && !!minLength">{{
-      'input.minMaxLengthHint' | i18n : {current: control?.value?.length || 0, max: maxLength, min: minLength}
+    @if (matcher.isErrorState(control)) {
+      <mat-icon color="warn" matSuffix>error_outline</mat-icon>
+    }
+    @if (hint) {
+      <mat-hint align="start">{{ hint }}</mat-hint>
+    }
+    @if (!!maxLength && !!minLength) {
+      <mat-hint align="end">{{
+        'input.minMaxLengthHint' | i18n : {current: control?.value?.length || 0, max: maxLength, min: minLength}
       }}</mat-hint>
-    <mat-hint align="end" *ngIf="!maxLength && !!minLength">{{
-      'input.minLengthHint' | i18n : {current: control?.value?.length || 0, min: minLength}
+    }
+    @if (!maxLength && !!minLength) {
+      <mat-hint align="end">{{
+        'input.minLengthHint' | i18n : {current: control?.value?.length || 0, min: minLength}
       }}</mat-hint>
-    <mat-hint align="end" *ngIf="!!maxLength && !minLength">{{
-      'input.maxLengthHint' | i18n : {rest: maxLength - (control?.value?.length || 0)}
+    }
+    @if (!!maxLength && !minLength) {
+      <mat-hint align="end">{{
+        'input.maxLengthHint' | i18n : {rest: maxLength - (control?.value?.length || 0)}
       }}</mat-hint>
+    }
     <mat-error>
       <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
     </mat-error>

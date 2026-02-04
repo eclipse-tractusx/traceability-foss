@@ -18,25 +18,26 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="detail-wrapper">
-    <div class="card-container">
-      <button mat-button [routerLink]="['/admin/digital-twin-part']">
-        <mat-icon>arrow_back</mat-icon> Back
-      </button>
-  
+  <div class="card-container">
+    <button mat-button [routerLink]="['/admin/digital-twin-part']">
+      <mat-icon>arrow_back</mat-icon> Back
+    </button>
+
+    @if (registryData) {
       <app-card-list
-        *ngIf="registryData"
         [title]="'digitalTwinPart.registryData'"
         [list]="registryData"
         [i18nPrefix]="'digitalTwinPart'"
       ></app-card-list>
-  
+    }
+
+    @if (irsData) {
       <app-card-list
-        *ngIf="irsData"
         [title]="'digitalTwinPart.irsDataSync'"
         [list]="irsData"
         [i18nPrefix]="'digitalTwinPart'"
       ></app-card-list>
-    </div>
+    }
   </div>
-  
-  
+</div>
+

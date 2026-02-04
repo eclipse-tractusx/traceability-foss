@@ -23,7 +23,7 @@ SPDX-License-Identifier: Apache-2.0
       [color]="'primary'"
       onkeydown="this.navigateBack()"
       (click)="this.navigateBack()"
-    >
+      >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
         {{ 'actions.goBack' | i18n }}
@@ -40,13 +40,13 @@ SPDX-License-Identifier: Apache-2.0
              ? ('requestNotification.noChanges' | i18n)
              : ('requestNotification.saveNotAllowed' | i18n))
        : 'requestNotification.save' | i18n}}"
-         matTooltipClass="table--header--tooltip"
-         matTooltipPosition="above"
-         [class.mdc-tooltip--multiline]="true"
-         [matTooltipShowDelay]="1000"
-         [style.cursor]="'not-allowed'"
-         (mouseenter)="shouldMarkAsTouched.next(true)"
-    >
+      matTooltipClass="table--header--tooltip"
+      matTooltipPosition="above"
+      [class.mdc-tooltip--multiline]="true"
+      [matTooltipShowDelay]="1000"
+      [style.cursor]="'not-allowed'"
+      (mouseenter)="shouldMarkAsTouched.next(true)"
+      >
       <app-button
         onkeydown="clickedSave()"
         (click)="clickedSave()"
@@ -64,14 +64,16 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="detail--wrapper">
   <mat-card class="notification-request-card">
-    <app-notification-new-request *ngIf="selectedNotification"
-                                  data-testid="app-notification-new-request"
-                                  [title]="editMode ? 'requestNotification.editNotificationHeader' : 'requestNotification.createNotificationHeader'"
-                                  [editMode]="editMode"
-                                  [allTouched]="shouldMarkAsTouched"
-                                  [notification]="selectedNotification"
-                                  (formGroupChanged)="notificationFormGroupChange($event)">
-    </app-notification-new-request>
+    @if (selectedNotification) {
+      <app-notification-new-request
+        data-testid="app-notification-new-request"
+        [title]="editMode ? 'requestNotification.editNotificationHeader' : 'requestNotification.createNotificationHeader'"
+        [editMode]="editMode"
+        [allTouched]="shouldMarkAsTouched"
+        [notification]="selectedNotification"
+        (formGroupChanged)="notificationFormGroupChange($event)">
+      </app-notification-new-request>
+    }
   </mat-card>
 
   <div class="parts-card-wrapper">
@@ -79,7 +81,7 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card class="parts-card">
       <mat-card-header>
         <mat-card-title
-        ><h4>
+          ><h4>
           {{ 'requestNotification.affectedParts'  | i18n }}
         </h4></mat-card-title
         >
@@ -87,7 +89,7 @@ SPDX-License-Identifier: Apache-2.0
       <mat-card-content data-testid="affectedParts">
         <div class="parts-table-wrapper">
           <ng-container
-            *viewContainer="affectedPartsAsBuilt$ | async; main: affectedTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          *viewContainer="affectedPartsAsBuilt$ | async; main: affectedTmp; error: errorTmp; loading: loaderTmp"></ng-container>
           <ng-template #affectedTmp let-parts="view">
 
 
@@ -99,7 +101,7 @@ SPDX-License-Identifier: Apache-2.0
               [matTooltipShowDelay]="1000"
               [style.cursor]="'not-allowed'"
               class="mt-1 mb-2"
-            >
+              >
               <app-button
                 onkeydown="removeAffectedParts()"
                 (click)="removeAffectedParts()"
@@ -107,23 +109,23 @@ SPDX-License-Identifier: Apache-2.0
                 [variant]="'stroked'"
                 [color]="'primary'"
                 [iconName]="'delete'"
-              >
+                >
               </app-button>
             </div>
             <!-- asBuilt Parts Table-->
             <app-parts-table class="parts-asBuilt-table"
-                             [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-                             [labelId]="affectedPartsTableLabelId"
-                             (configChanged)="paginationChangedAffectedParts($event)"
-                             [selectedPartsActionLabel]="'page.selectedParts.action'"
-                             [deselectTrigger]="deselectPartTrigger$ | async"
-                             [menuActivated]="false"
-                             (multiSelect)="currentSelectedAffectedParts$.next($event)"
-                             (filterActivated)="filterAffectedParts($event)"
-                             [multiSortList]="tableAsBuiltSortList"
-                             [tableType]="TableType.AS_BUILT_OWN"
-                             [mainAspectType]="MainAspectType.AS_BUILT"
-                             [assetIdsForAutoCompleteFilter]="this.affectedPartIds"
+              [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+              [labelId]="affectedPartsTableLabelId"
+              (configChanged)="paginationChangedAffectedParts($event)"
+              [selectedPartsActionLabel]="'page.selectedParts.action'"
+              [deselectTrigger]="deselectPartTrigger$ | async"
+              [menuActivated]="false"
+              (multiSelect)="currentSelectedAffectedParts$.next($event)"
+              (filterActivated)="filterAffectedParts($event)"
+              [multiSortList]="tableAsBuiltSortList"
+              [tableType]="TableType.AS_BUILT_OWN"
+              [mainAspectType]="MainAspectType.AS_BUILT"
+              [assetIdsForAutoCompleteFilter]="this.affectedPartIds"
             ></app-parts-table>
           </ng-template>
         </div>
@@ -133,7 +135,7 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card class="parts-card">
       <mat-card-header>
         <mat-card-title
-        ><h4>
+          ><h4>
           {{ 'requestNotification.unAffectedParts'  | i18n }}
         </h4></mat-card-title
         >
@@ -141,7 +143,7 @@ SPDX-License-Identifier: Apache-2.0
       <mat-card-content>
         <div class="parts-table-wrapper">
           <ng-container
-            *viewContainer="availablePartsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          *viewContainer="availablePartsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
           <ng-template #mainTmp let-parts="view">
 
 
@@ -153,7 +155,7 @@ SPDX-License-Identifier: Apache-2.0
               [matTooltipShowDelay]="1000"
               [style.cursor]="'not-allowed'"
               class="mt-1 mb-2"
-            >
+              >
               <app-button
                 onkeydown="addAffectedParts()"
                 (click)="addAffectedParts()"
@@ -164,18 +166,18 @@ SPDX-License-Identifier: Apache-2.0
               </app-button>
             </div>
             <app-parts-table class="parts-asBuilt-table" data-testid="unAffectedParts"
-                             [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-                             [labelId]="availablePartsTableLabelId"
-                             (configChanged)="paginationChangedAvailableParts($event)"
-                             [menuActivated]="false"
-                             [selectedPartsActionLabel]="'page.selectedParts.action'"
-                             [deselectTrigger]="deselectPartTrigger$ | async"
-                             (multiSelect)="currentSelectedAvailableParts$.next($event)"
-                             (filterActivated)="filterAvailableParts($event)"
-                             [multiSortList]="tableAsBuiltSortList"
-                             [tableType]="TableType.AS_BUILT_OWN"
-                             [mainAspectType]="MainAspectType.AS_BUILT"
-                             [assetIdsForAutoCompleteFilter]="this.availablePartIds"
+              [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+              [labelId]="availablePartsTableLabelId"
+              (configChanged)="paginationChangedAvailableParts($event)"
+              [menuActivated]="false"
+              [selectedPartsActionLabel]="'page.selectedParts.action'"
+              [deselectTrigger]="deselectPartTrigger$ | async"
+              (multiSelect)="currentSelectedAvailableParts$.next($event)"
+              (filterActivated)="filterAvailableParts($event)"
+              [multiSortList]="tableAsBuiltSortList"
+              [tableType]="TableType.AS_BUILT_OWN"
+              [mainAspectType]="MainAspectType.AS_BUILT"
+              [assetIdsForAutoCompleteFilter]="this.availablePartIds"
             ></app-parts-table>
           </ng-template>
         </div>

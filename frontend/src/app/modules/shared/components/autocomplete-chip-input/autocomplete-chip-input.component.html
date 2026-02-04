@@ -20,12 +20,14 @@ SPDX-License-Identifier: Apache-2.0
   <mat-label>{{ placeholderKey | i18n }}</mat-label>
 
   <mat-chip-grid #chipGrid aria-label="Item selection">
-    <mat-chip-row *ngFor="let item of items">
-      {{ item }}
-      <button matChipRemove [attr.aria-label]="'remove ' + item" (click)="remove(item)">
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip-row>
+    @for (item of items; track item) {
+      <mat-chip-row>
+        {{ item }}
+        <button matChipRemove [attr.aria-label]="'remove ' + item" (click)="remove(item)">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
   </mat-chip-grid>
 
   <input
@@ -36,45 +38,48 @@ SPDX-License-Identifier: Apache-2.0
     [matAutocomplete]="auto"
     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
     [placeholder]="'multiSelect.searchPlaceholder' | i18n"
-  />
+    />
 
   <button
     mat-icon-button
     matSuffix
     aria-label="My Button"
     (click)="clearAllItems()"
-  >
+    >
     <mat-icon>close</mat-icon>
   </button>
 
   <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption="false">
     <mat-option class="select-all-option"
-                [disabled]="filteredItemsList.length === 0">
+      [disabled]="filteredItemsList.length === 0">
       <mat-checkbox
         [checked]="areAllSelected()"
         (click)="onSelectAllClicked($event)"
-      >
+        >
         {{ 'filter.select-all' | i18n }}
       </mat-checkbox>
     </mat-option>
     <mat-divider></mat-divider>
 
-    <mat-option class="no-items-message" *ngIf="filteredItemsList.length === 0"
-      [disabled]="true">
-      No suggested values
-    </mat-option>
+    @if (filteredItemsList.length === 0) {
+      <mat-option class="no-items-message"
+        [disabled]="true">
+        No suggested values
+      </mat-option>
+    }
 
-    <mat-option
-      *ngFor="let item of filteredItemsList"
-      [value]="item"
-      class="select-option"
-    >
-      <mat-checkbox
-        [checked]="items.includes(item)"
-        (click)="onCheckboxClicked($event, item)"
-      >
-        {{ item }}
-      </mat-checkbox>
-    </mat-option>
+    @for (item of filteredItemsList; track item) {
+      <mat-option
+        [value]="item"
+        class="select-option"
+        >
+        <mat-checkbox
+          [checked]="items.includes(item)"
+          (click)="onCheckboxClicked($event, item)"
+          >
+          {{ item }}
+        </mat-checkbox>
+      </mat-option>
+    }
   </mat-autocomplete>
 </mat-form-field>

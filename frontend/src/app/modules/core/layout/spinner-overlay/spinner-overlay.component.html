@@ -19,9 +19,11 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="spinner-wrapper" *ngIf="this.isOverlayLoading$ | async">
-  <div class="spinner">
-    <div class="double-bounce1"></div>
-    <div class="double-bounce2"></div>
+@if (this.isOverlayLoading$ | async) {
+  <div class="spinner-wrapper">
+    <div class="spinner">
+      <div class="double-bounce1"></div>
+      <div class="double-bounce2"></div>
+    </div>
   </div>
-</div>
+}

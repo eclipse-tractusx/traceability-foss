@@ -19,134 +19,128 @@ SPDX-License-Identifier: Apache-2.0
 
 
 <div class="table-header-wrapper">
-  <div *ngIf="tableHeader" class="table-header-container">
-    <div class="large-text table--header--first--column">
-      <div class="text--container">
-        {{ tableHeader }}
-      </div>
-
-      <div class="right-icon-container">
-        <p><mat-slide-toggle labelPosition="before" [(ngModel)]="toggleTableFilter">{{'actions.showTableFilter'| i18n}}</mat-slide-toggle></p>
-        <div class="action-button-tile-usersettings"
-             matTooltip="{{'actions.userSettings'| i18n}}"
-             matTooltipClass="table--header--tooltip"
-             matTooltipPosition="above"
-             [class.mdc-tooltip--multiline]="true"
-             [matTooltipShowDelay]="500">
-          <app-button
-            iconName="table_chart"
-            class="action-button-tile ml-2"
-            (click)="openDialog()"
-            (keydown)="handleKeyDownOpenDialog($event)"
-          ></app-button>
+  @if (tableHeader) {
+    <div class="table-header-container">
+      <div class="large-text table--header--first--column">
+        <div class="text--container">
+          {{ tableHeader }}
         </div>
-
-        <div class="action-button-tile-maximizeTable"
-             matTooltip="{{'actions.maximizeTable'| i18n}}"
-             matTooltipClass="table--header--tooltip"
-             matTooltipPosition="above"
-             [class.mdc-tooltip--multiline]="true"
-             [matTooltipShowDelay]="500">
-          <app-button
-            [iconName]="isMaximized ? 'close_fullscreen' : 'open_in_full'"
-            class="action-button-tile ml-2"
-            (click)="maximizeClickedMethod()"
-            (keydown)="handleKeyDownMaximizedClickedMethod($event)"
-          ></app-button>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="table--selected__container">
-      <div class="icon-container">
-
-        <app-button
-          *ngIf="tableType === TableType.AS_BUILT_OWN"
-          iconName="announcement"
-          class="action-button-tile"
-          variant="flat"
-          color="primary"
-          [useWhiteText]="true"
-          [useGap]="true"
-          [attr.data-testid]="'create-notification-button'"
-          [isDisabled]="isActionButtonDisabled()"
-          (click)="createQualityNotificationClicked()"
-          (keydown)="handleKeyDownQualityNotificationClicked($event)"
-        > {{ 'actions.createNotification' | i18n }}</app-button>
-
-
-        <div class="action-button-tile"
-             matTooltip="{{(isAdmin()  ? (atLeastOneSelected() ? 'routing.illegalAssetStateToPublish' :'requestNotification.modifyNotAllowed') : 'routing.unauthorized') | i18n}}"
-             matTooltipClass="table--header--tooltip"
-             matTooltipPosition="above"
-             [class.mdc-tooltip--multiline]="true"
-             [matTooltipShowDelay]="500"
-             [matTooltipDisabled]="isAdmin() && atLeastOneSelected() && !isIllegalSelectionToPublish()">
-          <app-button
-            iconName="upload"
-            class="action-button-tile"
-            matTooltip="{{'actions.publishAssets'| i18n}}"
-            [matTooltipShowDelay]="500"
+        <div class="right-icon-container">
+          <p><mat-slide-toggle labelPosition="before" [(ngModel)]="toggleTableFilter">{{'actions.showTableFilter'| i18n}}</mat-slide-toggle></p>
+          <div class="action-button-tile-usersettings"
+            matTooltip="{{'actions.userSettings'| i18n}}"
+            matTooltipClass="table--header--tooltip"
             matTooltipPosition="above"
-            [isDisabled]="!isAdmin() || !atLeastOneSelected() || isIllegalSelectionToPublish()"
-            (click)="publishIconClicked()"
-            (keydown)="handleKeyDownPublishIconClicked($event)"
-          ></app-button>
+            [class.mdc-tooltip--multiline]="true"
+            [matTooltipShowDelay]="500">
+            <app-button
+              iconName="table_chart"
+              class="action-button-tile ml-2"
+              (click)="openDialog()"
+              (keydown)="handleKeyDownOpenDialog($event)"
+            ></app-button>
+          </div>
+          <div class="action-button-tile-maximizeTable"
+            matTooltip="{{'actions.maximizeTable'| i18n}}"
+            matTooltipClass="table--header--tooltip"
+            matTooltipPosition="above"
+            [class.mdc-tooltip--multiline]="true"
+            [matTooltipShowDelay]="500">
+            <app-button
+              [iconName]="isMaximized ? 'close_fullscreen' : 'open_in_full'"
+              class="action-button-tile ml-2"
+              (click)="maximizeClickedMethod()"
+              (keydown)="handleKeyDownMaximizedClickedMethod($event)"
+            ></app-button>
+          </div>
         </div>
-
-        <div class="action-button-tile"
-             matTooltip="{{ !isAdmin() ? 'routing.unauthorized' : (!isValidOwnerSelection() ? 'requestNotification.invalidOwnerSelection' : 'routing.syncSelectedParts' ) | i18n }}"
-             matTooltipClass="table--header--tooltip"
-             matTooltipPosition="above"
-             [class.mdc-tooltip--multiline]="true"
-             [matTooltipShowDelay]="500"
-             [matTooltipDisabled]="isAdmin() && isValidOwnerSelection()">
-          <app-button
-            iconName="published_with_changes"
-            class="action-button-tile"
-            [isDisabled]="!isAdmin() || !isValidOwnerSelection()"
-            (click)="partReloadIconClicked()"
-            (keydown)="handleKeyDownPartReloadIconClicked($event)"
-          ></app-button>
-        </div>
-        <div class="vertical-line"></div>
-
-        <div class="notification">
-          <app-button
-            [iconName]="toggleAdvancedFilter ? 'close' : 'filter_list'"
-            class="action-button-tile"
-            variant="button"
-            [useGap]="true"
-            [attr.data-testid]="'open-advanced-search-button'"
-            (click)="toggleAdvancedSearch()"
-            (keydown)="handleKeyDownToggleAdvancedSearch($event)"
-          >
-            {{ toggleAdvancedFilter ? ('actions.closeAdvancedSearch' | i18n) : ('actions.advancedSearch' | i18n) }}
-          </app-button>
-
-          <!-- Show badge only if there is at least one active filter -->
-          <span class="badge"
+      </div>
+      <div class="table--selected__container">
+        <div class="icon-container">
+          @if (tableType === TableType.AS_BUILT_OWN) {
+            <app-button
+              iconName="announcement"
+              class="action-button-tile"
+              variant="flat"
+              color="primary"
+              [useWhiteText]="true"
+              [useGap]="true"
+              [attr.data-testid]="'create-notification-button'"
+              [isDisabled]="isActionButtonDisabled()"
+              (click)="createQualityNotificationClicked()"
+              (keydown)="handleKeyDownQualityNotificationClicked($event)"
+            > {{ 'actions.createNotification' | i18n }}</app-button>
+          }
+          <div class="action-button-tile"
+            matTooltip="{{(isAdmin()  ? (atLeastOneSelected() ? 'routing.illegalAssetStateToPublish' :'requestNotification.modifyNotAllowed') : 'routing.unauthorized') | i18n}}"
+            matTooltipClass="table--header--tooltip"
+            matTooltipPosition="above"
+            [class.mdc-tooltip--multiline]="true"
+            [matTooltipShowDelay]="500"
+            [matTooltipDisabled]="isAdmin() && atLeastOneSelected() && !isIllegalSelectionToPublish()">
+            <app-button
+              iconName="upload"
+              class="action-button-tile"
+              matTooltip="{{'actions.publishAssets'| i18n}}"
+              [matTooltipShowDelay]="500"
+              matTooltipPosition="above"
+              [isDisabled]="!isAdmin() || !atLeastOneSelected() || isIllegalSelectionToPublish()"
+              (click)="publishIconClicked()"
+              (keydown)="handleKeyDownPublishIconClicked($event)"
+            ></app-button>
+          </div>
+          <div class="action-button-tile"
+            matTooltip="{{ !isAdmin() ? 'routing.unauthorized' : (!isValidOwnerSelection() ? 'requestNotification.invalidOwnerSelection' : 'routing.syncSelectedParts' ) | i18n }}"
+            matTooltipClass="table--header--tooltip"
+            matTooltipPosition="above"
+            [class.mdc-tooltip--multiline]="true"
+            [matTooltipShowDelay]="500"
+            [matTooltipDisabled]="isAdmin() && isValidOwnerSelection()">
+            <app-button
+              iconName="published_with_changes"
+              class="action-button-tile"
+              [isDisabled]="!isAdmin() || !isValidOwnerSelection()"
+              (click)="partReloadIconClicked()"
+              (keydown)="handleKeyDownPartReloadIconClicked($event)"
+            ></app-button>
+          </div>
+          <div class="vertical-line"></div>
+          <div class="notification">
+            <app-button
+              [iconName]="toggleAdvancedFilter ? 'close' : 'filter_list'"
+              class="action-button-tile"
+              variant="button"
+              [useGap]="true"
+              [attr.data-testid]="'open-advanced-search-button'"
+              (click)="toggleAdvancedSearch()"
+              (keydown)="handleKeyDownToggleAdvancedSearch($event)"
+              >
+              {{ toggleAdvancedFilter ? ('actions.closeAdvancedSearch' | i18n) : ('actions.advancedSearch' | i18n) }}
+            </app-button>
+            <!-- Show badge only if there is at least one active filter -->
+            <span class="badge"
                 [ngClass]="{
             'badge-normal': activeFiltersCount < 10,
             'badge-big': activeFiltersCount >= 10,
           }">
-            {{ activeFiltersCount }}
-          </span>
+              {{ activeFiltersCount }}
+            </span>
+          </div>
         </div>
-
+        <div class="selected-text-container">
+          @if (selectedPartsInfoLabel) {
+            <p
+            class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+          }
+        </div>
       </div>
-      <div class="selected-text-container">
-        <p *ngIf="selectedPartsInfoLabel"
-           class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+      <hr class="filter-header-divider" />
+      <div class="advanced-filter-wrapper" [@advancedFilterExpand]="toggleAdvancedFilter ? 'expanded' : 'collapsed'">
+        <app-advanced-table-filter [tableType]="tableType"
+        ></app-advanced-table-filter>
       </div>
     </div>
-    <hr class="filter-header-divider" />
-    <div class="advanced-filter-wrapper" [@advancedFilterExpand]="toggleAdvancedFilter ? 'expanded' : 'collapsed'">
-      <app-advanced-table-filter [tableType]="tableType"
-      ></app-advanced-table-filter>
-    </div>
-  </div>
+  }
 </div>
 
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
@@ -160,35 +154,38 @@ SPDX-License-Identifier: Apache-2.0
     matSort
     multiTemplateDataRows
     data-testid="table-component--test-id"
-  >
+    >
     <tr *matHeaderRowDef="tableConfig.displayedColumns; sticky: true" mat-header-row
-        data-testid="table-component--head-row"
-        class="table--header--row"></tr>
+      data-testid="table-component--head-row"
+    class="table--header--row"></tr>
 
 
     <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [@tableFilterExpand]="toggleTableFilter ? 'expanded' : 'collapsed'"></tr>
 
 
-    <ng-container matColumnDef="{{ filter.headerKey }}"
-                  *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
-      <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef
+    @for (filter of tableViewConfig.displayFilterColumnMappings; track filter) {
+      <ng-container matColumnDef="{{ filter.headerKey }}"
+        >
+        <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef
           [ngClass]="{'menu-column': filter.headerKey === 'Menu'}">
-        <app-multiselect *ngIf="filter.headerKey!== 'Filter' && filter.headerKey !=='Menu'"
-                         [placeholder]="'multiSelect.placeholder' | i18n"
-                         [options]="filter.option"
-                         [isDate]="filter.isDate"
-                         [singleSearch]="filter.singleSearch"
-                         [filterColumn]="filter.filterKey"
-                         [prefilterValue]="filter.headerKey === 'filtercontractAgreementId' ? preFilter : null"
-                         [tableType]="tableType"
-                         [inAssetIds]="assetIdsForAutoCompleteFilter"
-                         [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
-                         ngDefaultControl
-                         [formControl]="filterFormGroup.controls[filter.filterKey]">
-        </app-multiselect>
-
-      </th>
-    </ng-container>
+          @if (filter.headerKey!== 'Filter' && filter.headerKey !=='Menu') {
+            <app-multiselect
+              [placeholder]="'multiSelect.placeholder' | i18n"
+              [options]="filter.option"
+              [isDate]="filter.isDate"
+              [singleSearch]="filter.singleSearch"
+              [filterColumn]="filter.filterKey"
+              [prefilterValue]="filter.headerKey === 'filtercontractAgreementId' ? preFilter : null"
+              [tableType]="tableType"
+              [inAssetIds]="assetIdsForAutoCompleteFilter"
+              [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
+              ngDefaultControl
+              [formControl]="filterFormGroup.controls[filter.filterKey]">
+            </app-multiselect>
+          }
+        </th>
+      </ng-container>
+    }
 
     <tr
       *matRowDef="let row; columns: tableConfig.displayedColumns"
@@ -211,24 +208,26 @@ SPDX-License-Identifier: Apache-2.0
       </td>
     </tr>
 
-    <ng-container *ngFor="let column of tableConfig?.displayedColumns" [ngSwitch]="column">
-      <ng-container *ngSwitchCase="'select'">
-        <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
-      </ng-container>
-      <ng-container *ngSwitchCase="'menu'">
-        <ng-container *ngTemplateOutlet="MenuColumn"></ng-container>
-      </ng-container>
-      <ng-container *ngSwitchDefault>
-        <ng-container *ngTemplateOutlet="NormalColumn; context: { $implicit: column }"></ng-container>
-      </ng-container>
-    </ng-container>
+    @for (column of tableConfig?.displayedColumns; track column) {
+      @switch (column) {
+        @case ('select') {
+          <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
+        }
+        @case ('menu') {
+          <ng-container *ngTemplateOutlet="MenuColumn"></ng-container>
+        }
+        @default {
+          <ng-container *ngTemplateOutlet="NormalColumn; context: { $implicit: column }"></ng-container>
+        }
+      }
+    }
 
     <ng-template #SelectColumn>
       <ng-container matColumnDef="select">
         <th *matHeaderCellDef
-            mat-header-cell
-            class="table--header--select--cell"
-        >
+          mat-header-cell
+          class="table--header--select--cell"
+          >
           <div class="table--select-all" [class.table--select-all__menu]="isMenuOpen">
             <mat-checkbox
               [checked]="selection.hasValue() && areAllRowsSelected()"
@@ -236,14 +235,14 @@ SPDX-License-Identifier: Apache-2.0
               (change)="$event ? toggleAllRows() : null"
               data-testid="select-all--test-id"
               color="primary"
-            >
+              >
             </mat-checkbox>
             <mat-icon
               [matMenuTriggerFor]="selectMenu"
               (menuOpened)="isMenuOpen = true"
               (menuClosed)="isMenuOpen = false"
               class="table--select-all__dropdown"
-            >
+              >
               keyboard_arrow_down
             </mat-icon>
           </div>
@@ -261,18 +260,18 @@ SPDX-License-Identifier: Apache-2.0
               (change)="toggleSelection(row)"
               data-testid="select-one--test-id"
               color="primary"
-            >
+              >
             </mat-checkbox>
-            <ng-container *ngIf="row['tombStoneErrorDetail']">
+            @if (row['tombStoneErrorDetail']) {
               <mat-icon matTooltip="{{'table.tombStone' | i18n}}"
-                        matTooltipClass="table--header--tooltip"
-                        matTooltipPosition="above"
-                        [class.mdc-tooltip--multiline]="true"
-                        [matTooltipShowDelay]="1000"
-                        class="text-error"
-              >nearby_error
+                matTooltipClass="table--header--tooltip"
+                matTooltipPosition="above"
+                [class.mdc-tooltip--multiline]="true"
+                [matTooltipShowDelay]="1000"
+                class="text-error"
+                >nearby_error
               </mat-icon>
-            </ng-container>
+            }
           </div>
         </td>
       </ng-container>
@@ -291,142 +290,133 @@ SPDX-License-Identifier: Apache-2.0
           [disabled]="!tableConfig.sortableColumns?.[column]"
           mat-header-cell
           class="table--cell table--header--normal--cell"
-        >
+          >
           <!-- This is the content of the first header row -->
-          <ng-container
-            *ngIf="tableConfig?.header?.[column]; else pureColumn"
-          >{{ tableConfig?.header?.[column] | i18n }}
-            <ng-container *ngIf="tableConfig?.header?.[column].includes('Alerts')">
-         <span class="table--notification--cell--content--icon">
-                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
-                                    matTooltipClass="table--header--tooltip"
-                                    matTooltipPosition="above"
-                                    [matTooltipShowDelay]="100"
-                                    class="table--notification--icon">notification_important</mat-icon>
-                          </span>
-            </ng-container>
-
-            <ng-container *ngIf="tableConfig?.header?.[column].includes('Investigations')">
-         <span class="table--notification--cell--content--icon">
-                          <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
-                                    matTooltipClass="table--header--tooltip"
-                                    matTooltipPosition="above"
-                                    [matTooltipShowDelay]="100"
-
-                                    class="table--notification--icon">inbox</mat-icon>
-                          </span>
-            </ng-container>
-
-
-            <ng-container *ngIf="multiSortList && multiSortList.length >1">
-              <ng-container *ngFor="let item of multiSortList; let i = index">
+          @if (tableConfig?.header?.[column]) {
+            {{ tableConfig?.header?.[column] | i18n }}
+            @if (tableConfig?.header?.[column].includes('Alerts')) {
+              <span class="table--notification--cell--content--icon">
+                <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [matTooltipShowDelay]="100"
+                class="table--notification--icon">notification_important</mat-icon>
+              </span>
+            }
+            @if (tableConfig?.header?.[column].includes('Investigations')) {
+              <span class="table--notification--cell--content--icon">
+                <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [matTooltipShowDelay]="100"
+                class="table--notification--icon">inbox</mat-icon>
+              </span>
+            }
+            @if (multiSortList && multiSortList.length >1) {
+              @for (item of multiSortList; track item; let i = $index) {
                 <!-- Replace 'columnToMatch' with the specific column name you want to match -->
-                <div class="table--header--sort--indicator" *ngIf="item[0] === column">
-                  <!-- Display the array entry when it matches the column name -->
-                  {{ (i + 1) + "." }}{{ item[1] === 'asc' ? '↑' : item[1] === 'desc' ? '↓' : '' }}
-                </div>
-              </ng-container>
-            </ng-container
-            >
-          </ng-container>
+                @if (item[0] === column) {
+                  <div class="table--header--sort--indicator">
+                    <!-- Display the array entry when it matches the column name -->
+                    {{ (i + 1) + "." }}{{ item[1] === 'asc' ? '↑' : item[1] === 'desc' ? '↓' : '' }}
+                  </div>
+                }
+              }
+            }
+          } @else {
+            {{ pureColumn }}
+          }
 
         </th>
         <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
           <div class="table--notification--cell">
-                        <span class="table--notification--cell--content">
+            <span class="table--notification--cell--content">
 
-<ng-container *ngIf="isDateElement(column); else notificationCountOrImportStateElement">
-  {{ (element[column] | date:'yyyy-MM-dd') }}
-</ng-container>
+              @if (isDateElement(column)) {
+                {{ (element[column] | date:'yyyy-MM-dd') }}
+              } @else {
+                <ng-container *ngTemplateOutlet="column === 'importState' ? importStateElement : notificationCountElement">
+                </ng-container>
+              }
 
-<ng-template #importStateElement>
-  <span class="table--importState-cell-container">
-    <app-chip [chipTextContent]="element[column]"></app-chip>
-  </span>
-</ng-template>
+              <ng-template #importStateElement>
+                <span class="table--importState-cell-container">
+                  <app-chip [chipTextContent]="element[column]"></app-chip>
+                </span>
+              </ng-template>
 
-                          <ng-template #ownerElement>
-  <ng-container *ngIf="isOwner(column); else semanticDataModelElement">
 
-      {{ 'table.owner.' + element[column]?.toLowerCase() | i18n }}
 
-  </ng-container>
-</ng-template>
-
-                                                    <ng-template #semanticDataModelElement>
-  <ng-container *ngIf="isSemanticDataModel(column); else autoFormatRef">
-      {{ 'table.semanticDataModel.' + element[column]?.toUpperCase() | i18n }}
-  </ng-container>
-</ng-template>
-
-<ng-template #notificationCountElement>
-  <ng-container *ngIf="isNotificationCountColumn(column); else ownerElement">
-    <span onkeydown="deeplinkToNotification(column, element[column])"
-          (click)="deeplinkToNotification(column, element[column])"
-          class="table--notification--cell--notification--count">
-      {{ element[column]?.length }}
-    </span>
-  </ng-container>
-</ng-template>
-
-<ng-template #notificationCountOrImportStateElement>
-  <ng-container *ngTemplateOutlet="column === 'importState' ? importStateElement : notificationCountElement">
-  </ng-container>
-</ng-template>
-
-<ng-template #autoFormatRef>
-
+              <ng-template #notificationCountElement>
+                @if (isNotificationCountColumn(column)) {
+                  <span onkeydown="deeplinkToNotification(column, element[column])"
+                    (click)="deeplinkToNotification(column, element[column])"
+                    class="table--notification--cell--notification--count">
+                    {{ element[column]?.length }}
+                  </span>
+                } @else {
+                  @if (isOwner(column)) {
+                    {{ 'table.owner.' + element[column]?.toLowerCase() | i18n }}
+                  } @else {
+                    @if (isSemanticDataModel(column)) {
+                      {{ 'table.semanticDataModel.' + element[column]?.toUpperCase() | i18n }}
+                    } @else {
                       <ng-container
                         [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
                         [ngTemplateOutletContext]="{ value: element[column], row: element }">
                       </ng-container>
-                                  </ng-template>
-                        </span>
-            <ng-container [ngSwitch]="column">
-              <ng-container *ngSwitchCase="'receivedActiveAlerts'">
-                          <span class="table--notification--cell--content--icon">
-                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
-                                    matTooltipClass="table--header--tooltip"
-                                    matTooltipPosition="above"
-                                    [matTooltipShowDelay]="100"
-                                    class="table--notification--icon">notification_important</mat-icon>
-                          </span>
-              </ng-container>
-              <ng-container *ngSwitchCase="'sentActiveAlerts'">
-                          <span class="table--notification--cell--content--icon">
-                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
-                                    matTooltipClass="table--header--tooltip"
-                                    matTooltipPosition="above"
-                                    [matTooltipShowDelay]="100"
-                                    class="table--notification--icon">notification_important</mat-icon>
-                          </span>
-              </ng-container>
-              <ng-container *ngSwitchCase="'receivedActiveInvestigations'">
-                          <span class="table--notification--cell--content--icon">
-                          <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
-                                    matTooltipClass="table--header--tooltip"
-                                    matTooltipPosition="above"
-                                    [matTooltipShowDelay]="100"
-                                    class="table--notification--icon">inbox</mat-icon>
-                        </span>
-              </ng-container>
-              <ng-container *ngSwitchCase="'sentActiveInvestigations'">
-                          <span class="table--notification--cell--content--icon">
-                          <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
-                                    matTooltipClass="table--header--tooltip"
-                                    matTooltipPosition="above"
-                                    [matTooltipShowDelay]="100"
-                                    class="table--notification--icon">inbox</mat-icon>
-                        </span>
-              </ng-container>
-              <ng-container *ngSwitchCase="'manufacturingCountry'">
-                          <span class="table--notification--cell--content--icon">
-                          <app-country-flag-generator class="ml-2"
-                                                      [countryCode]="element[column] ? element[column] : ''">
-                          </app-country-flag-generator>
-                        </span>
-              </ng-container>
-            </ng-container>
+                    }
+                  }
+                }
+              </ng-template>
+
+
+            </span>
+            @switch (column) {
+              @case ('receivedActiveAlerts') {
+                <span class="table--notification--cell--content--icon">
+                  <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                    matTooltipClass="table--header--tooltip"
+                    matTooltipPosition="above"
+                    [matTooltipShowDelay]="100"
+                  class="table--notification--icon">notification_important</mat-icon>
+                </span>
+              }
+              @case ('sentActiveAlerts') {
+                <span class="table--notification--cell--content--icon">
+                  <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                    matTooltipClass="table--header--tooltip"
+                    matTooltipPosition="above"
+                    [matTooltipShowDelay]="100"
+                  class="table--notification--icon">notification_important</mat-icon>
+                </span>
+              }
+              @case ('receivedActiveInvestigations') {
+                <span class="table--notification--cell--content--icon">
+                  <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                    matTooltipClass="table--header--tooltip"
+                    matTooltipPosition="above"
+                    [matTooltipShowDelay]="100"
+                  class="table--notification--icon">inbox</mat-icon>
+                </span>
+              }
+              @case ('sentActiveInvestigations') {
+                <span class="table--notification--cell--content--icon">
+                  <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                    matTooltipClass="table--header--tooltip"
+                    matTooltipPosition="above"
+                    [matTooltipShowDelay]="100"
+                  class="table--notification--icon">inbox</mat-icon>
+                </span>
+              }
+              @case ('manufacturingCountry') {
+                <span class="table--notification--cell--content--icon">
+                  <app-country-flag-generator class="ml-2"
+                    [countryCode]="element[column] ? element[column] : ''">
+                  </app-country-flag-generator>
+                </span>
+              }
+            }
           </div>
         </td>
       </ng-container>
@@ -436,35 +426,36 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container matColumnDef="menu" stickyEnd>
         <th *matHeaderCellDef class="table--menu table--header--menu" mat-header-cell></th>
         <td *matCellDef="let row" class="table--menu" mat-cell
-            [attr.colspan]="tableConfig.displayedColumns.length">
+          [attr.colspan]="tableConfig.displayedColumns.length">
           <div [hidden]="!menuActivated" class="table--menu__desktop">
             <button
               [matMenuTriggerFor]="menu"
               [attr.aria-label]="'table.menuDescription' | i18n"
               data-testId="table-menu-button"
               mat-icon-button
-            >
+              >
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
-                <button
-                  *ngIf="!config.condition || config.condition(row)"
-                  (click)="config.action(row)"
-                  [attr.data-testId]="'table-menu-button--' + config.label"
-                  [disabled]="config.disabled"
-                  mat-menu-item
-                  matTooltip="{{'table.unauthorized' | i18n}}"
-                  matTooltipClass="table--header--tooltip"
-                  matTooltipPosition="above"
-                  [class.mdc-tooltip--multiline]="true"
-                  [matTooltipShowDelay]="500"
-                  [matTooltipDisabled]="!config?.disabled ?? false"
-                >
-                  <mat-icon>{{ config.icon }}</mat-icon>
-                  <span>{{ config.label | i18n }}</span>
-                </button>
-              </ng-container>
+              @for (config of tableConfig.menuActionsConfig; track config) {
+                @if (!config.condition || config.condition(row)) {
+                  <button
+                    (click)="config.action(row)"
+                    [attr.data-testId]="'table-menu-button--' + config.label"
+                    [disabled]="config.disabled"
+                    mat-menu-item
+                    matTooltip="{{'table.unauthorized' | i18n}}"
+                    matTooltipClass="table--header--tooltip"
+                    matTooltipPosition="above"
+                    [class.mdc-tooltip--multiline]="true"
+                    [matTooltipShowDelay]="500"
+                    [matTooltipDisabled]="!config?.disabled ?? false"
+                    >
+                    <mat-icon>{{ config.icon }}</mat-icon>
+                    <span>{{ config.label | i18n }}</span>
+                  </button>
+                }
+              }
             </mat-menu>
           </div>
         </td>
@@ -474,19 +465,16 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <mat-paginator class="table-paginator-menu"
-               [length]="totalItems"
-               [pageIndex]="pageIndex"
-               [pageSizeOptions]="[50,100,200]"
-               [attr.aria-label]="'table.selectPageSize' | i18n"
-               [attr.data-testId]="'table.selectPageSize' | i18n"
-               (page)="onPaginationChange($event)"
-               showFirstLastButtons
->
+  [length]="totalItems"
+  [pageIndex]="pageIndex"
+  [pageSizeOptions]="[50,100,200]"
+  [attr.aria-label]="'table.selectPageSize' | i18n"
+  [attr.data-testId]="'table.selectPageSize' | i18n"
+  (page)="onPaginationChange($event)"
+  showFirstLastButtons
+  >
 </mat-paginator>
 
-<ng-template #pureColumn>
-  {{ pureColumn }}
-</ng-template>
 
 <ng-template #autoFormat let-value="value">
   {{ value | autoFormat | i18n }}
