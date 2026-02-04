@@ -110,6 +110,8 @@ $tracefoss-theme: mat.m2-define-light-theme(
     )
 );
 
-@include mat.core();
-@include mat.core-theme($tracefoss-theme);
+@include mat.elevation-classes();
+@include mat.app-background();
+@include mat.elevation-classes();
+@include mat.app-background();
 @include mat.all-component-themes($tracefoss-theme);
