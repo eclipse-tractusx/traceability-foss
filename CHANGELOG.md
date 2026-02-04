@@ -7,6 +7,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
+## [Unreleased - 04.02.2026]
+### Fixed
+- chore: upgrade to Angular 21, including dependencies
+
 ## [Unreleased - 06.06.2025]
 ### Fixed
 - fix: eclipse-tractusx/sig-release#1442 record information should only be visible for admins
