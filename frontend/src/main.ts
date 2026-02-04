@@ -34,7 +34,7 @@ if (window['Zone']) {
 
   // otherwise, wait to bootstrap the app until zone.js is imported
 } else {
-  import('zone.js/dist/zone').then(() => bootstrap());
+  import('zone.js').then(() => bootstrap());
 }
 
 function bootstrap() {

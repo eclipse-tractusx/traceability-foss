@@ -22,7 +22,7 @@
               "base64-js",
               "js-sha256",
               "msw",
-              "zone.js/dist/zone"
+              "zone.js"
             ],
             "customWebpackConfig": {
               "path": "./webpack.config.js",
