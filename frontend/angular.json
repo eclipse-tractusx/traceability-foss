@@ -297,7 +297,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "trace-x:build:dev"
+            "buildTarget": "trace-x:build:dev"
           }
         },
         "test": {
