@@ -234,63 +234,63 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "trace-x:build:dev",
+            "buildTarget": "trace-x:build:dev",
             "proxyConfig": "./int.proxy.conf.json"
           },
           "configurations": {
             "dev": {
-              "browserTarget": "trace-x:build:dev"
+              "buildTarget": "trace-x:build:dev"
             },
             "auth": {
-              "browserTarget": "trace-x:build:dev,auth"
+              "buildTarget": "trace-x:build:dev,auth"
             },
             "authDev": {
-              "browserTarget": "trace-x:build:dev,authDev"
+              "buildTarget": "trace-x:build:dev,authDev"
             },
             "authTest": {
-              "browserTarget": "trace-x:build:dev,authTest"
+              "buildTarget": "trace-x:build:dev,authTest"
             },
             "authE2eA": {
-              "browserTarget": "trace-x:build:dev,authE2eA"
+              "buildTarget": "trace-x:build:dev,authE2eA"
             },
             "authE2eB": {
-              "browserTarget": "trace-x:build:dev,authE2eB"
+              "buildTarget": "trace-x:build:dev,authE2eB"
             },
             "authLocal": {
-              "browserTarget": "trace-x:build:dev,authLocal"
+              "buildTarget": "trace-x:build:dev,authLocal"
             },
             "authMock": {
-              "browserTarget": "trace-x:build:dev,authMock"
+              "buildTarget": "trace-x:build:dev,authMock"
             },
             "localBackend": {
-              "browserTarget": "trace-x:build:dev,localBackend"
+              "buildTarget": "trace-x:build:dev,localBackend"
             },
             "localBackendNoAuth": {
-              "browserTarget": "trace-x:build:dev,localBackendNoAuth"
+              "buildTarget": "trace-x:build:dev,localBackendNoAuth"
             },
             "localBackendTractusX": {
-              "browserTarget": "trace-x:build:dev,localBackendTractusX"
+              "buildTarget": "trace-x:build:dev,localBackendTractusX"
             },
             "localBackendTractusXCofinity": {
-              "browserTarget": "trace-x:build:dev,localBackendTractusXCofinity"
+              "buildTarget": "trace-x:build:dev,localBackendTractusXCofinity"
             },
             "prodBackendTractusXCofinity": {
-              "browserTarget": "trace-x:build:production,prodBackendTractusXCofinity"
+              "buildTarget": "trace-x:build:production,prodBackendTractusXCofinity"
             },
             "localBackendTractusXCatena": {
-              "browserTarget": "trace-x:build:dev,localBackendTractusXCatena"
+              "buildTarget": "trace-x:build:dev,localBackendTractusXCatena"
             },
             "prodBackendTractusXCatena": {
-              "browserTarget": "trace-x:build:production,prodBackendTractusXCatena"
+              "buildTarget": "trace-x:build:production,prodBackendTractusXCatena"
             },
             "production": {
-              "browserTarget": "trace-x:build:production"
+              "buildTarget": "trace-x:build:production"
             },
             "debugProd": {
-              "browserTarget": "trace-x:build:dev,debugProd"
+              "buildTarget": "trace-x:build:dev,debugProd"
             },
             "localUmbrella": {
-              "browserTarget": "trace-x:build:dev,localUmbrella"
+              "buildTarget": "trace-x:build:dev,localUmbrella"
             }
           }
         },
