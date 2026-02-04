@@ -86,6 +86,12 @@ jobs:
           config-file: ./.github/codeql/codeql-config.yml
           queries: +security-and-quality,security-extended
 
+      - name: Set up Node.js 22
+        if: ${{ matrix.language == 'javascript' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
       # If this step fails, then you should remove it and run the build manually (see below)
       # - name: Autobuild
@@ -95,7 +101,7 @@ jobs:
         if: ${{ matrix.language == 'javascript' }}
         run: |
           cd frontend
-          npm install
+          npm install --legacy-peer-deps
 
       - name: Build frontend
         if: ${{ matrix.language == 'javascript' }}
