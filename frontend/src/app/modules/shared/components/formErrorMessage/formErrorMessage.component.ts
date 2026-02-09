@@ -24,6 +24,7 @@ import { AbstractControl } from '@angular/forms';
 import { MyErrorStateMatcher } from '@shared/abstraction/baseInput/baseInput.helper';
 
 @Component({
+  standalone: false,
   selector: 'app-form-error-message',
   templateUrl: './formErrorMessage.component.html',
 })

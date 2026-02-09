@@ -47,8 +47,8 @@ describe('RelatedPartsTableComponent', () => {
   const mockFacade = {
     getChildPartDetails: jasmine.createSpy().and.returnValue(of([mockChildPart])),
     getParentPartDetails: jasmine.createSpy().and.returnValue(of([mockParentPart])),
-    sortChildParts: (data, field, direction) => data,
-    sortParentParts: (data, field, direction) => data,
+    sortChildParts: (data) => data?.data ?? [],
+    sortParentParts: (data) => data?.data ?? [],
   };
 
   const renderRelatedPartsTableComponent = async () => {
@@ -78,8 +78,8 @@ describe('RelatedPartsTableComponent', () => {
     const emptyFacadeMock = {
       getChildPartDetails: jasmine.createSpy().and.returnValue(of([])),
       getParentPartDetails: jasmine.createSpy().and.returnValue(of([])),
-      sortChildParts: (data, field, direction) => data,
-      sortParentParts: (data, field, direction) => data,
+      sortChildParts: (data) => data?.data ?? [],
+      sortParentParts: (data) => data?.data ?? [],
     };
 
     const { fixture } = await renderComponent(RelatedPartsTableComponent, {
@@ -101,8 +101,8 @@ describe('RelatedPartsTableComponent', () => {
     const facadeMock = {
       getChildPartDetails: jasmine.createSpy().and.returnValue(of([])), // child = empty
       getParentPartDetails: jasmine.createSpy().and.returnValue(of([mockParentPart])), // parent = present
-      sortChildParts: (data, field, direction) => data,
-      sortParentParts: (data, field, direction) => data,
+      sortChildParts: (data) => data?.data ?? [],
+      sortParentParts: (data) => data?.data ?? [],
     };
 
     const { fixture } = await renderComponent(RelatedPartsTableComponent, {
@@ -124,8 +124,8 @@ describe('RelatedPartsTableComponent', () => {
     const facadeMock = {
       getChildPartDetails: jasmine.createSpy().and.returnValue(of([mockChildPart])),
       getParentPartDetails: jasmine.createSpy().and.returnValue(of([])),
-      sortChildParts: (data, field, direction) => data,
-      sortParentParts: (data, field, direction) => data,
+      sortChildParts: (data) => data?.data ?? [],
+      sortParentParts: (data) => data?.data ?? [],
     };
 
     const roleMock = {
@@ -161,8 +161,8 @@ describe('RelatedPartsTableComponent', () => {
     const facadeMock = {
       getChildPartDetails: jasmine.createSpy().and.returnValue(of([mockChildPart])),
       getParentPartDetails: jasmine.createSpy().and.returnValue(of([])),
-      sortChildParts: (data, field, direction) => data,
-      sortParentParts: (data, field, direction) => data,
+      sortChildParts: (data) => data?.data ?? [],
+      sortParentParts: (data) => data?.data ?? [],
     };
 
     const roleMock = {
@@ -198,7 +198,7 @@ describe('RelatedPartsTableComponent', () => {
       getChildPartDetails: jasmine.createSpy().and.returnValue(of([mockChildPart])),
       getParentPartDetails: jasmine.createSpy().and.returnValue(of([])),
       sortChildParts: jasmine.createSpy().and.returnValue([mockChildPart]),
-      sortParentParts: (data, field, direction) => data,
+      sortParentParts: (data) => data?.data ?? [],
     };
 
     const { fixture } = await renderComponent(RelatedPartsTableComponent, {
@@ -239,7 +239,7 @@ describe('RelatedPartsTableComponent', () => {
       getChildPartDetails: jasmine.createSpy().and.returnValue(of([])),
       getParentPartDetails: jasmine.createSpy().and.returnValue(of([mockParentPart])),
       sortChildParts: jasmine.createSpy().and.returnValue([mockChildPart]),
-      sortParentParts: (data, field, direction) => data,
+      sortParentParts: (data) => data?.data ?? [],
     };
 
     const { fixture } = await renderComponent(RelatedPartsTableComponent, {
@@ -279,8 +279,8 @@ describe('RelatedPartsTableComponent', () => {
     const facadeMock = {
       getChildPartDetails: jasmine.createSpy().and.returnValue(of([mockChildPart])),
       getParentPartDetails: jasmine.createSpy().and.returnValue(of([])),
-      sortChildParts: (data, field, direction) => data,
-      sortParentParts: (data, field, direction) => data,
+      sortChildParts: (data) => data?.data ?? [],
+      sortParentParts: (data) => data?.data ?? [],
     };
   
     const roleMock = {
@@ -311,6 +311,8 @@ describe('RelatedPartsTableComponent', () => {
     // Case 1: OWN part selected
     fixture.componentInstance['selectedPartsState'].update([ownPart]);
     fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
   
     let button = await screen.findByTestId('request-investigation-btn');
     expect(button.textContent).toContain('routing.createIncident');
@@ -320,7 +322,10 @@ describe('RelatedPartsTableComponent', () => {
     // Case 2: SUPPLIER part selected
     fixture.componentInstance['selectedPartsState'].update([supplierPart]);
     fixture.detectChanges();
-  
+    await fixture.whenStable();
+    fixture.detectChanges();
+    button = await screen.findByTestId('request-investigation-btn');
+
     expect(button.textContent).toContain('routing.requestInvestigation');
     expect(fixture.componentInstance.requestButtonTooltipKey).toBe('routing.requestInvestigation');
     expect(fixture.componentInstance.showIncidentButton()).toBeTrue();
@@ -328,12 +333,16 @@ describe('RelatedPartsTableComponent', () => {
     // Case 3: Mixed ownership
     fixture.componentInstance['selectedPartsState'].update(mixedParts);
     fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
   
     expect(fixture.componentInstance.requestButtonTooltipKey).toBe('routing.partMismatch');
     expect(fixture.componentInstance.showIncidentButton()).toBeFalse();
   
     // Case 4: No selection
     fixture.componentInstance['selectedPartsState'].update([]);
+    fixture.detectChanges();
+    await fixture.whenStable();
     fixture.detectChanges();
   
     expect(fixture.componentInstance.requestButtonTooltipKey).toBe('routing.noChildPartsForInvestigation');

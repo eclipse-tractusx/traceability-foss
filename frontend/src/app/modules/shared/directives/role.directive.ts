@@ -24,6 +24,7 @@ import { Role } from '@core/user/role.model';
 import { RoleService } from '@core/user/role.service';
 
 @Directive({
+  standalone: false,
   selector: '[appHasRole]',
 })
 export class RoleDirective implements OnInit {

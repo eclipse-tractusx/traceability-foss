@@ -32,6 +32,7 @@ import { map } from 'rxjs/operators';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
 
 @Component({
+  standalone: false,
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: [ './dashboard.component.scss' ],

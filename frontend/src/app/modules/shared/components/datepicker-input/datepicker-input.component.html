@@ -25,26 +25,27 @@ SPDX-License-Identifier: Apache-2.0
       matStartDate
       formControlName="start"
       [placeholder]="'filter.placeholder.startDate' | i18n"
-    />
+      />
 
     <input
       matEndDate
       formControlName="end"
       [placeholder]="'filter.placeholder.endDate' | i18n"
-    />
+      />
   </mat-date-range-input>
 
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 
   <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
 
-  <button
-    mat-icon-button
-    matSuffix
-    aria-label="Clear date range"
-    *ngIf="dateRange.get('start').value || dateRange.get('end').value"
-    (click)="clearRange()"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
+  @if (dateRange.get('start').value || dateRange.get('end').value) {
+    <button
+      mat-icon-button
+      matSuffix
+      aria-label="Clear date range"
+      (click)="clearRange()"
+      >
+      <mat-icon>close</mat-icon>
+    </button>
+  }
 </mat-form-field>

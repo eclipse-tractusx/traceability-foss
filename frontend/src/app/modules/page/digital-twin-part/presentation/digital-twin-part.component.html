@@ -17,65 +17,71 @@ under the License.
 SPDX-License-Identifier: Apache-2.0-->
 
 <mat-card class="digital-twin-part-card">
-    <mat-card-header class="flex-row">
-        <mat-card-title>
-            <h3 data-testid="digital-twin-parts-view-header">{{ 'pageAdmin.digitalTwinPart' | i18n }}</h3>
-        </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <div class="global-search-container">
-            <div class="search-area">
-                <mat-form-field class="parts-global-search-field"
-                    [floatLabel]="chipItems.length > 0 ? 'always' : 'auto'">
-                    <mat-label>Search Digital Twin Parts</mat-label>
-                    <mat-chip-listbox aria-label="Search items">
-                        <div #chipContainer class="chip-container">
-                            <mat-chip *ngFor="let item of visibleChips">
-                                {{ item }}
-                                <button matChipRemove (click)="remove(item)">
-                                    <mat-icon>cancel</mat-icon>
-                                </button>
-                            </mat-chip>
-                            <mat-chip *ngIf="hiddenCount > 0" class="hidden-chip">+{{ hiddenCount }}</mat-chip>
-                        </div>
-                        <input matInput [formControl]="searchControl" (keydown.enter)="triggerSearch()" />
-                        <div class="search-buttons">
-                            <button mat-icon-button matSuffix (click)="triggerSearch()" [color]="'primary'">
-                                <mat-icon>search</mat-icon>
-                            </button>
-                            <button *ngIf="chipItems.length" mat-icon-button matSuffix (click)="clearInput()"
-                                [color]="'primary'">
-                                <mat-icon>clear</mat-icon>
-                            </button>
-                        </div>
-                    </mat-chip-listbox>
-                </mat-form-field>
+  <mat-card-header class="flex-row">
+    <mat-card-title>
+      <h3 data-testid="digital-twin-parts-view-header">{{ 'pageAdmin.digitalTwinPart' | i18n }}</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="global-search-container">
+      <div class="search-area">
+        <mat-form-field class="parts-global-search-field"
+          [floatLabel]="chipItems.length > 0 ? 'always' : 'auto'">
+          <mat-label>Search Digital Twin Parts</mat-label>
+          <mat-chip-listbox aria-label="Search items">
+            <div #chipContainer class="chip-container">
+              @for (item of visibleChips; track item) {
+                <mat-chip>
+                  {{ item }}
+                  <button matChipRemove (click)="remove(item)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+              }
+              @if (hiddenCount > 0) {
+                <mat-chip class="hidden-chip">+{{ hiddenCount }}</mat-chip>
+              }
             </div>
-
-            <div class="settings-button-container">
-                <button mat-icon-button (click)="onOpenConfigurationDialog()">
-                    <mat-icon>settings</mat-icon>
+            <input matInput [formControl]="searchControl" (keydown.enter)="triggerSearch()" />
+            <div class="search-buttons">
+              <button mat-icon-button matSuffix (click)="triggerSearch()" [color]="'primary'">
+                <mat-icon>search</mat-icon>
+              </button>
+              @if (chipItems.length) {
+                <button mat-icon-button matSuffix (click)="clearInput()"
+                  [color]="'primary'">
+                  <mat-icon>clear</mat-icon>
                 </button>
+              }
             </div>
-        </div>
+          </mat-chip-listbox>
+        </mat-form-field>
+      </div>
 
-        <ng-container
-            *viewContainer="digitalTwinPartsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+      <div class="settings-button-container">
+        <button mat-icon-button (click)="onOpenConfigurationDialog()">
+          <mat-icon>settings</mat-icon>
+        </button>
+      </div>
+    </div>
 
-        <ng-template #mainTmp let-parts="view">
-            <app-table [data]="parts?.data?.content" [autocompleteEnabled]="true" [tableSettingsEnabled]="true"
-                [tableConfig]="tableConfig" [tableType]="tableType" [noShadow]="true" [showHover]="false"
-                (selected)="onViewDetails($event)" (configChanged)="onSortChange($event)" [paginationData]="parts?.data"
-                (filterActivated)="onFilterChange($event)" [basicTableHeaderMenuEnabled]="true"
-                [labelId]="'digitalTwinPart'"></app-table>
-        </ng-template>
+    <ng-container
+    *viewContainer="digitalTwinPartsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
 
-        <ng-template #errorTmp let-error="view">
-            <app-data-loading-error [error]="error.error"></app-data-loading-error>
-        </ng-template>
+    <ng-template #mainTmp let-parts="view">
+      <app-table [data]="parts?.data?.content" [autocompleteEnabled]="true" [tableSettingsEnabled]="true"
+        [tableConfig]="tableConfig" [tableType]="tableType" [noShadow]="true" [showHover]="false"
+        (selected)="onViewDetails($event)" (configChanged)="onSortChange($event)" [paginationData]="parts?.data"
+        (filterActivated)="onFilterChange($event)" [basicTableHeaderMenuEnabled]="true"
+      [labelId]="'digitalTwinPart'"></app-table>
+    </ng-template>
 
-        <ng-template #loaderTmp>
-            <mat-spinner></mat-spinner>
-        </ng-template>
-    </mat-card-content>
+    <ng-template #errorTmp let-error="view">
+      <app-data-loading-error [error]="error.error"></app-data-loading-error>
+    </ng-template>
+
+    <ng-template #loaderTmp>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+  </mat-card-content>
 </mat-card>

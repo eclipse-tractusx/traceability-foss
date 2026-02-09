@@ -22,6 +22,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-relation',
   templateUrl: './relation.component.html',
 })

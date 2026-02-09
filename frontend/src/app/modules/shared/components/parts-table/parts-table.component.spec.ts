@@ -35,7 +35,6 @@ import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { c } from 'msw/lib/glossary-2792c6da';
 import { of } from 'rxjs';
 import { TableType } from '../multi-select-autocomplete/table-type.model';
 

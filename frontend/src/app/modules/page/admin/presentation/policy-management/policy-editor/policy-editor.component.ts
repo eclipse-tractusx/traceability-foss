@@ -32,6 +32,7 @@ import { ViewMode } from '@shared/model/view.model';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-policy-editor',
   templateUrl: './policy-editor.component.html',
   styleUrls: [ './policy-editor.component.scss' ],

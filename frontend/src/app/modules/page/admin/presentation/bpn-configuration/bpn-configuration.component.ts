@@ -33,6 +33,7 @@ export const bpnRegex = /^BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2}$/;
 export const bpnListRegex = /^(BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2})(,\s*BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2})*$/;
 
 @Component({
+  standalone: false,
   selector: 'app-bpn-configuration',
   templateUrl: './bpn-configuration.component.html',
   styleUrls: [ './bpn-configuration.component.scss' ],

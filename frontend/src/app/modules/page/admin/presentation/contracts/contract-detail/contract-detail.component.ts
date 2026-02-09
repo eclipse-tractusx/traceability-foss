@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-contract-detail',
   templateUrl: './contract-detail.component.html',
   styleUrls: ['./contract-detail.component.scss']
@@ -38,7 +39,11 @@ export class ContractDetailComponent {
       if(!next?.data?.policy) {
         return;
       }
-      this.policyJson = JSON.parse(next?.data?.policy)
+      try {
+        this.policyJson = JSON.parse(next?.data?.policy);
+      } catch (error) {
+        this.policyJson = null;
+      }
     })
 
   }

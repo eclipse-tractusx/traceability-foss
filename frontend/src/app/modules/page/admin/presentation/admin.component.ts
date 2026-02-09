@@ -25,6 +25,7 @@ import { Role } from '@core/user/role.model';
 import { filter } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: [ './admin.component.scss' ],

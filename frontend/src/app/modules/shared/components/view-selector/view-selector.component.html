@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
   <ng-template #flat>
     <button [ngClass]="{'selected': isSelected}" [disabled]="isDisabled" [color]="color" mat-flat-button>
       <div class="flex items-center">
-      <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
       </div>
     </button>
   </ng-template>
@@ -34,6 +34,8 @@ SPDX-License-Identifier: Apache-2.0
 
   <ng-template #content>
     <ng-content></ng-content>
-    <mat-icon *ngIf="isSelected">check</mat-icon>
+    @if (isSelected) {
+      <mat-icon>check</mat-icon>
+    }
   </ng-template>
 </div>

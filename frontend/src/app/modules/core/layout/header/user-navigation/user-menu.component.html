@@ -28,52 +28,48 @@ SPDX-License-Identifier: Apache-2.0
         <app-avatar></app-avatar>
       </button>
     </div>
-    <div
-      *ngIf="this.isExpanded"
-      [class.expand]="isExpanded"
-      class="user-menu-items-container"
-      role="menu"
-      aria-orientation="vertical"
-      aria-labelledby="user-menu"
-    >
-      <section class="flex flex-row px-4 py-2">
-        <section class="flex flex-col p-1">
-          <p class="regular-text">{{ this.userDetails.name }}</p>
-          <p class="component-headline text-doveGray break-words">{{ this.userDetails.role }}</p>
+    @if (this.isExpanded) {
+      <div
+        [class.expand]="isExpanded"
+        class="user-menu-items-container"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="user-menu"
+        >
+        <section class="flex flex-row px-4 py-2">
+          <section class="flex flex-col p-1">
+            <p class="regular-text">{{ this.userDetails.name }}</p>
+            <p class="component-headline text-doveGray break-words">{{ this.userDetails.role }}</p>
+          </section>
         </section>
-      </section>
-
-      <mat-divider></mat-divider>
-
-      <div *ngIf="portalUrl" (click)="openPortalPage()" class="user-menu-items">
-        <p class="regular-text user-menu-items__label" role="menuitem">
-          {{ 'layout.nav.goToPortal' | i18n }}
-        </p>
-        <app-button variant="icon" iconName="home"></app-button>
+        <mat-divider></mat-divider>
+        @if (portalUrl) {
+          <div (click)="openPortalPage()" class="user-menu-items">
+            <p class="regular-text user-menu-items__label" role="menuitem">
+              {{ 'layout.nav.goToPortal' | i18n }}
+            </p>
+            <app-button variant="icon" iconName="home"></app-button>
+          </div>
+        }
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { name: 'admin', icon: 'apps', role: 'admin', route: 'admin' }"
+          >
+        </ng-container>
+        <mat-divider></mat-divider>
+        <div class="user-menu-items" (click)="this.logOut()">
+          <p class="regular-text user-menu-items__label" role="menuitem">
+            {{ 'layout.nav.signOut' | i18n }}
+          </p>
+          <app-button variant="icon" iconName="arrow_forward_small"></app-button>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="user-menu-language">
+          <p class="user-menu-language__items">
+            <app-language-selector></app-language-selector>
+          </p>
+        </div>
       </div>
-
-      <ng-container
-        *ngTemplateOutlet="menuItem; context: { name: 'admin', icon: 'apps', role: 'admin', route: 'admin' }"
-      >
-      </ng-container>
-
-      <mat-divider></mat-divider>
-
-      <div class="user-menu-items" (click)="this.logOut()">
-        <p class="regular-text user-menu-items__label" role="menuitem">
-          {{ 'layout.nav.signOut' | i18n }}
-        </p>
-        <app-button variant="icon" iconName="arrow_forward_small"></app-button>
-      </div>
-
-      <mat-divider></mat-divider>
-
-      <div class="user-menu-language">
-        <p class="user-menu-language__items">
-          <app-language-selector></app-language-selector>
-        </p>
-      </div>
-    </div>
+    }
   </div>
 </div>
 
@@ -90,7 +86,7 @@ SPDX-License-Identifier: Apache-2.0
     [routerLink]="isAuthorized ? ['/' + route] : null"
     [class.user-menu-items--selected]="route === activeItem"
     data-testid="user-menu-administration-button"
-  >
+    >
     <p class="regular-text user-menu-items__label" [class.user-menu-items__label--disabled]="!isAuthorized" role="menuitem">
       {{ 'routing.' + name | i18n }}
     </p>

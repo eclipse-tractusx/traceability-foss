@@ -63,17 +63,16 @@ SPDX-License-Identifier: Apache-2.0
   </button>
 </ng-template>
 
-<ng-template #iconElement>
-  <div class="flex items-center" [class.gap-2]="useGap" [ngStyle]="useWhiteText && {'color': 'white'}">
-    <mat-icon>{{ this.iconName }}</mat-icon>
-    <ng-container [ngTemplateOutlet]="content"></ng-container>
-  </div>
-</ng-template>
 
 <ng-template #buttonContent>
-  <ng-container *ngIf="!this.iconName; else iconElement">
+  @if (!this.iconName) {
     <ng-container [ngTemplateOutlet]="content"></ng-container>
-  </ng-container>
+  } @else {
+    <div class="flex items-center" [class.gap-2]="useGap" [ngStyle]="useWhiteText && {'color': 'white'}">
+      <mat-icon>{{ this.iconName }}</mat-icon>
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </div>
+  }
 </ng-template>
 
 <ng-template #content>

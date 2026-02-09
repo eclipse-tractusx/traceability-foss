@@ -19,11 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {
-  NgxMatDatetimePickerModule,
-  NgxMatNativeDateModule,
-  NgxMatTimepickerModule,
-} from '@angular-material-components/datetime-picker';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -84,7 +79,6 @@ import { MatTreeModule } from '@angular/material/tree';
     MatNativeDateModule,
     MatDatepickerModule,
     MatButtonToggleModule,
-    NgxMatTimepickerModule,
     MatDialogModule,
     MatTableModule,
     MatSelectModule,
@@ -93,9 +87,8 @@ import { MatTreeModule } from '@angular/material/tree';
     MatSortModule,
     MatRadioModule,
     MatChipsModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
     MatTooltipModule,
+    MatTabsModule,
   ],
   exports: [
     CommonModule,
@@ -122,7 +115,6 @@ import { MatTreeModule } from '@angular/material/tree';
     MatNativeDateModule,
     MatDatepickerModule,
     MatButtonToggleModule,
-    NgxMatTimepickerModule,
     MatDialogModule,
     MatTableModule,
     MatSelectModule,
@@ -131,8 +123,6 @@ import { MatTreeModule } from '@angular/material/tree';
     MatSortModule,
     MatRadioModule,
     MatChipsModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
     MatTooltipModule,
     MatTabsModule,
   ],

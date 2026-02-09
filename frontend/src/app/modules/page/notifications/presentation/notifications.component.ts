@@ -45,6 +45,7 @@ import { NotificationProcessingService } from '@shared/service/notification-proc
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-notification-component',
   templateUrl: './notifications.component.html',
 })

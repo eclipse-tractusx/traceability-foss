@@ -40,6 +40,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { delay, switchMap, takeWhile, tap } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-part-relation',
   templateUrl: './part-relation.component.html',
   styleUrls: [ './part-relation.component.scss' ],

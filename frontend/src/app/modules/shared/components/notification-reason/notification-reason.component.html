@@ -19,41 +19,47 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 <section class="flex flex-col">
-  <ng-container *ngFor="let message of textMessages; let i = index">
+  @for (message of textMessages; track message; let i = $index) {
     <ng-container
-      *ngTemplateOutlet="chatBubble; context: { message: message, lastDate: i > 0 ? textMessages[i-1].date : null, isFirst: i === 0 }"></ng-container>
-  </ng-container>
+    *ngTemplateOutlet="chatBubble; context: { message: message, lastDate: i > 0 ? textMessages[i-1].date : null, isFirst: i === 0 }"></ng-container>
+  }
 </section>
 
 <ng-template #chatBubble let-message="message" let-lastDate="lastDate" let-isFirst="isFirst">
   <ng-container>
-    <div class="message--separator" *ngIf="isFirst || (!isFirst && lastDate && !isSameDay(lastDate, message.date))">
-      {{ message.date | formatDate : { dateStyle: 'long' } }}
-    </div>
+    @if (isFirst || (!isFirst && lastDate && !isSameDay(lastDate, message.date))) {
+      <div class="message--separator">
+        {{ message.date | formatDate : { dateStyle: 'long' } }}
+      </div>
+    }
     <div class="message--text message--text__{{ message.direction }} message--text-arrow__{{ message.direction }}"
-         [class.self-start]="message.direction === 'left'" [class.self-end]="message.direction === 'right'">
+      [class.self-start]="message.direction === 'left'" [class.self-end]="message.direction === 'right'">
       <div class="message--bpn__{{message.direction}}"
-           title="{{ message.user }} | {{ message.bpn }}">{{ message.user || message.bpn }}
+        title="{{ message.user }} | {{ message.bpn }}">{{ message.user || message.bpn }}
       </div>
       <p class="mb-1">{{ message.message }}</p>
-      <div class="flex items-center" *ngIf="message?.errorMessage?.length">
-        <mat-icon class="mr-1" color="warn">error_outline</mat-icon>
-        <p class="message--error--text">{{ message?.errorMessage }}</p>
-      </div>
+      @if (message?.errorMessage?.length) {
+        <div class="flex items-center">
+          <mat-icon class="mr-1" color="warn">error_outline</mat-icon>
+          <p class="message--error--text">{{ message?.errorMessage }}</p>
+        </div>
+      }
       <div class="message--status">
-            <span data-testId="description-status"
-                  class="notification-status card-list--value notification-status--{{ message?.status }}"
-                  title="{{ 'commonAlert.status.' + message?.status | i18n }}"
-            >
-      {{ 'commonAlert.status.' + message?.status | i18n }}
-    </span>
-        <p class="message--text__date flex items-center" *ngIf="message.date">
-          <mat-icon class="message--text__date-icon">access_time
-          </mat-icon
+        <span data-testId="description-status"
+          class="notification-status card-list--value notification-status--{{ message?.status }}"
+          title="{{ 'commonAlert.status.' + message?.status | i18n }}"
           >
-          {{ message.date | formatDate : {timeStyle: 'short'} }}
-        </p>
+          {{ 'commonAlert.status.' + message?.status | i18n }}
+        </span>
+        @if (message.date) {
+          <p class="message--text__date flex items-center">
+            <mat-icon class="message--text__date-icon">access_time
+              </mat-icon
+              >
+              {{ message.date | formatDate : {timeStyle: 'short'} }}
+            </p>
+          }
+        </div>
       </div>
-    </div>
-  </ng-container>
-</ng-template>
+    </ng-container>
+  </ng-template>

@@ -3,12 +3,12 @@
   <div class="list-container">
     <h4>{{'publisher.selectedAssets' | i18n}}:</h4>
     <mat-list>
-      <ng-container *ngFor="let asset of selectedAssets">
+      @for (asset of selectedAssets; track asset) {
         <mat-list-item>
           <span matListItemTitle>{{asset?.nameAtManufacturer}}</span>
           <span matListItemLine>{{asset?.id}}</span>
         </mat-list-item>
-      </ng-container>
+      }
     </mat-list>
   </div>
   <mat-divider [vertical]="true"></mat-divider>
@@ -17,30 +17,34 @@
     <mat-form-field appearance="fill">
       <mat-label>{{'publisher.selectPolicyLabel' | i18n}}</mat-label>
       <mat-select [formControl]="policyFormControl" required>
-        <mat-option *ngFor="let policy of policiesList" [value]="policy?.policyId">
-          {{policy?.policyId}}
-        </mat-option>
+        @for (policy of policiesList; track policy) {
+          <mat-option [value]="policy?.policyId">
+            {{policy?.policyId}}
+          </mat-option>
+        }
       </mat-select>
-      <mat-error *ngIf="policyFormControl.invalid">{{'publisher.selectPolicyError' | i18n}}</mat-error>
+      @if (policyFormControl.invalid) {
+        <mat-error>{{'publisher.selectPolicyError' | i18n}}</mat-error>
+      }
     </mat-form-field>
 
     <div class="publish-action-container" [style.cursor]="checkForIllegalAssetStateToPublish() ? 'not-allowed' : 'default'">
       <div class="detail--action--button"
-           matTooltip="{{'routing.illegalAssetStateToPublish' | i18n}}"
-           matTooltipClass="table--header--tooltip"
-           matTooltipPosition="above"
-           [class.mdc-tooltip--multiline]="true"
-           [matTooltipShowDelay]="1000"
-           [matTooltipDisabled]="!checkForIllegalAssetStateToPublish()"
-      >
-      <app-button variant="raised"
-                  class="custom-button_import"
-                  color="primary"
-                  [isDisabled]="policyFormControl.invalid || checkForIllegalAssetStateToPublish()"
-                  onkeydown="publish()"
-                  (click)="publish()">
-        {{'publisher.publish' | i18n}}
-      </app-button>
+        matTooltip="{{'routing.illegalAssetStateToPublish' | i18n}}"
+        matTooltipClass="table--header--tooltip"
+        matTooltipPosition="above"
+        [class.mdc-tooltip--multiline]="true"
+        [matTooltipShowDelay]="1000"
+        [matTooltipDisabled]="!checkForIllegalAssetStateToPublish()"
+        >
+        <app-button variant="raised"
+          class="custom-button_import"
+          color="primary"
+          [isDisabled]="policyFormControl.invalid || checkForIllegalAssetStateToPublish()"
+          onkeydown="publish()"
+          (click)="publish()">
+          {{'publisher.publish' | i18n}}
+        </app-button>
       </div>
     </div>
   </div>

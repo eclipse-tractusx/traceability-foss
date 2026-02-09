@@ -24,6 +24,7 @@ import { Observable } from 'rxjs';
 import { SpinnerOverlayService } from './spinner-overlay.service';
 
 @Component({
+  standalone: false,
   selector: 'app-spinner-overlay',
   templateUrl: './spinner-overlay.component.html',
   styleUrls: [ './spinner-overlay.component.scss' ],

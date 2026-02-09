@@ -23,12 +23,12 @@ home: https://eclipse-tractusx.github.io/
 sources:
   - https://github.com/eclipse-tractusx/traceability-foss
 type: application
-version: 1.4.3
-appVersion: "15.0.1"
+version: 1.5.0
+appVersion: "16.0.0"
 dependencies:
   - name: frontend
     repository: "file://charts/frontend"
-    version: 1.4.3
+    version: 1.5.0
   - name: backend
     repository: "file://charts/backend"
     version: 1.4.3

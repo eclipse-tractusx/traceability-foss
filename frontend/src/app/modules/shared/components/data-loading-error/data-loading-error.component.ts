@@ -22,6 +22,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-data-loading-error',
   templateUrl: './data-loading-error.component.html',
 })

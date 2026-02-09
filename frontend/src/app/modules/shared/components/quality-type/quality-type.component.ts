@@ -23,6 +23,7 @@ import { Component, Input } from '@angular/core';
 import { QualityType } from '@page/parts/model/parts.model';
 
 @Component({
+  standalone: false,
   selector: 'app-quality-type',
   templateUrl: './quality-type.component.html',
   styleUrls: [ './quality-type.component.scss' ],

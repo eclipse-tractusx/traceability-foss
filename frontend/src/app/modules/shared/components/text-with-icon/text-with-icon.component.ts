@@ -23,6 +23,7 @@ import { Component, Input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 
 @Component({
+  standalone: false,
   selector: 'app-text-with-icon',
   templateUrl: './text-with-icon.component.html',
 })

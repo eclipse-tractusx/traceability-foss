@@ -30,6 +30,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-notification-new-request',
   templateUrl: './notification-new-request.component.html',
 })

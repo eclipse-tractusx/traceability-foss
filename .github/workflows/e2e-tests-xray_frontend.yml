@@ -43,10 +43,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js 20.x
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
 
       - name: Run yarn install
         uses: Borales/actions-yarn@v5
@@ -110,10 +110,10 @@ jobs:
           name: cypress - e2e
           path: frontend/cypress/e2e
 
-      - name: Use Node.js 20.x
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli

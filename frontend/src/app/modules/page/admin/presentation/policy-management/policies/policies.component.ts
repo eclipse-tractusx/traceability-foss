@@ -20,6 +20,7 @@ import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-policies',
   templateUrl: './policies.component.html',
   styleUrls: [],

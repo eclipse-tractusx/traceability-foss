@@ -29,6 +29,7 @@ import {
 import { ConfigurationService } from '@shared/service/configuration.service';
 
 @Component({
+    standalone: false,
     selector: 'app-configuration-dialog',
     templateUrl: './configuration-dialog.component.html',
     styleUrls: ['./configuration-dialog.component.scss'],

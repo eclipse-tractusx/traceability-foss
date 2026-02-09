@@ -57,7 +57,7 @@ describe('requestNotificationNewComponent', () => {
           title, editMode, notification
         },
         providers: [
-          { provide: NotificationDetailFacade },
+          { provide: NotificationDetailFacade, useValue: notificationDetailFacadeMock },
           { provide: NotificationDetailState },
           { provide: FormatPartlistSemanticDataModelToCamelCasePipe },
         ],
@@ -66,6 +66,7 @@ describe('requestNotificationNewComponent', () => {
   };
 
   beforeEach(() => {
+    formGroupChangedMock = jasmine.createSpy('formGroupChangedMock');
 
     const notification: View<Notification> = {
       data: {
@@ -86,8 +87,7 @@ describe('requestNotificationNewComponent', () => {
       }
     };
 
-    const notificationDetailFacadeMock = jasmine.createSpyObj('notificationDetailFacade', [ 'selected$' ]);
-    notificationDetailFacadeMock.selected$.and.returnValue(of({ notification }));
+    notificationDetailFacadeMock = jasmine.createSpyObj('notificationDetailFacade', [], { selected$: of({ notification }) });
 
   });
 

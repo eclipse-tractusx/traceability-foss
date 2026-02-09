@@ -22,6 +22,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
   styleUrls: [ './avatar.component.scss' ],

@@ -23,6 +23,7 @@ import { FilterAttribute, FilterOperator, FilterValue } from '@shared/model/filt
 import { FilterService } from '@shared/service/filter.service';
 
 @Component({
+  standalone: false,
   selector: 'app-advanced-table-filter',
   templateUrl: './advanced-table-filter.component.html',
   styleUrls: [ './advanced-table-filter.component.scss' ],

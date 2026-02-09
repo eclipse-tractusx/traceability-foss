@@ -30,18 +30,21 @@ SPDX-License-Identifier: Apache-2.0
   </mat-dialog-content>
 
   <mat-dialog-actions [class]="'actions-container'">
-    <ng-container *ngIf="data?.notificationId" >
+    @if (data?.notificationId) {
       <mat-checkbox [class]="'checkbox-container'" [(ngModel)]="isValid">{{data?.type | i18n}} {{data?.notificationId}} </mat-checkbox>
-    </ng-container>
-    <app-button *ngIf="data.buttonLeft" (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
-    <app-button [ngClass]="data.buttonLeft ? '' : 'centered-button'"
-                *ngIf="data.buttonRight"
-                onkeydown="confirm()"
-                (click)="confirm()"
-                [color]="data.primaryButtonColour || 'primary'"
-                variant="raised"
-                [isDisabled]="data?.notificationId ? !isValid : false"
-    >{{ data.buttonRight | i18n }}</app-button
-    >
-  </mat-dialog-actions>
-</div>
+    }
+    @if (data.buttonLeft) {
+      <app-button (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
+    }
+    @if (data.buttonRight) {
+      <app-button [ngClass]="data.buttonLeft ? '' : 'centered-button'"
+        onkeydown="confirm()"
+        (click)="confirm()"
+        [color]="data.primaryButtonColour || 'primary'"
+        variant="raised"
+        [isDisabled]="data?.notificationId ? !isValid : false"
+        >{{ data.buttonRight | i18n }}</app-button
+        >
+      }
+    </mat-dialog-actions>
+  </div>

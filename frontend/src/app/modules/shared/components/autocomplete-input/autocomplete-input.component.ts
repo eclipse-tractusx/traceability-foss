@@ -28,6 +28,7 @@ import { of } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
   styleUrls: [ './autocomplete-input.component.scss' ],

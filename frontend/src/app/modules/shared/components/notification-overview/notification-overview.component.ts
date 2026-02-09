@@ -25,6 +25,7 @@ import { NotificationAction } from '@shared/modules/notification/notification-ac
 import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 
 @Component({
+  standalone: false,
   selector: 'app-notification-overview',
   templateUrl: './notification-overview.component.html',
   styleUrls: [

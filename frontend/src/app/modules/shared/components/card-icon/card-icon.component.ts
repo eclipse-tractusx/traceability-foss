@@ -24,6 +24,7 @@ import { StaticIdService } from '@shared/service/staticId.service';
 import { MetricData } from '@page/dashboard/presentation/dashboard.model';
 
 @Component({
+  standalone: false,
   selector: 'app-card-icon',
   templateUrl: './card-icon.component.html',
   styleUrls: [ './card-icon.component.scss' ],

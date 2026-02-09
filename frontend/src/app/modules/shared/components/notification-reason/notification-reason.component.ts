@@ -36,6 +36,7 @@ interface TextMessage {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-notification-reason',
   templateUrl: './notification-reason.component.html',
   styleUrls: [ './notification-reason.component.scss' ],

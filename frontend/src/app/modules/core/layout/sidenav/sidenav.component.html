@@ -19,26 +19,27 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<mat-sidenav-container
-  *ngIf="isOpen$"
-  [hasBackdrop]="true"
-  [class.sidenav--container__open]="isOpen$ | async"
-  class="sidenav--container"
-  data-testid="sidenav--test-id"
->
-  <mat-sidenav
-    #sidenav
-    [fixedInViewport]="true"
-    (openedChange)="sidenavAction($event)"
-    mode="over"
-    class="sidenav--content"
-    position="end"
-  >
-    <app-button [variant]="'miniFab'" (click)="sidenavAction(false)" class="sidenav--close__button"
+@if (isOpen$) {
+  <mat-sidenav-container
+    [hasBackdrop]="true"
+    [class.sidenav--container__open]="isOpen$ | async"
+    class="sidenav--container"
+    data-testid="sidenav--test-id"
     >
-      <mat-icon>close</mat-icon>
-    </app-button
-    >
-    <ng-container *ngTemplateOutlet="template$ | async"></ng-container>
-  </mat-sidenav>
-</mat-sidenav-container>
+    <mat-sidenav
+      #sidenav
+      [fixedInViewport]="true"
+      (openedChange)="sidenavAction($event)"
+      mode="over"
+      class="sidenav--content"
+      position="end"
+      >
+      <app-button [variant]="'miniFab'" (click)="sidenavAction(false)" class="sidenav--close__button"
+        >
+        <mat-icon>close</mat-icon>
+        </app-button
+        >
+        <ng-container *ngTemplateOutlet="template$ | async"></ng-container>
+      </mat-sidenav>
+    </mat-sidenav-container>
+  }

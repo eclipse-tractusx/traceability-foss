@@ -45,10 +45,10 @@ SPDX-License-Identifier: Apache-2.0
 
     <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
     <ng-container *ngFor="let option of optionsSelected">
-      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplaySelected" [disabled]="option.disabled" [value]="option.value">
         {{ option.display }}
       </mat-option>
-      <ng-template #i18nKeyDisplay>
+      <ng-template #i18nKeyDisplaySelected>
         <mat-option [disabled]="option.disabled" [value]="option.value">
           {{ 'multiSelect.mappedText.' + filterColumn + '.' + option.display | i18n: { defaultValue: option.display } }}
         </mat-option>
@@ -58,10 +58,10 @@ SPDX-License-Identifier: Apache-2.0
     <mat-divider></mat-divider>
     <ng-container *ngIf="options?.length">
       <ng-container *ngFor="let option of options">
-        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplayOptions" [disabled]="option.disabled" [value]="option.value">
           {{ option.display }}
         </mat-option>
-        <ng-template #i18nKeyDisplay>
+        <ng-template #i18nKeyDisplayOptions>
           <mat-option [disabled]="option.disabled" [value]="option.value">
             {{ 'multiSelect.mappedText.' + filterColumn + '.' + option.display | i18n: { defaultValue: option.display } }}
           </mat-option>
@@ -75,10 +75,10 @@ SPDX-License-Identifier: Apache-2.0
     <mat-select-trigger *ngIf="selectedValue?.length > 1">
       <div>
         <ng-container *ngFor="let value of displayValue()">
-          <ng-container *ngIf="containsIllegalCharactersForI18nKey(value); else i18nKeyDisplay">
+          <ng-container *ngIf="containsIllegalCharactersForI18nKey(value); else i18nKeyDisplayTrigger">
             {{ value }}
           </ng-container>
-          <ng-template #i18nKeyDisplay>
+          <ng-template #i18nKeyDisplayTrigger>
             {{ 'multiSelect.mappedText.' + filterColumn + '.' + value | i18n: { defaultValue: value } }}
           </ng-template>
         </ng-container>

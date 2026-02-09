@@ -21,60 +21,58 @@ SPDX-License-Identifier: Apache-2.0
 
 <mat-card class="info-card">
   <mat-card-header class="info-card--header" >
-    <ng-container *ngIf="!isBoldTitle; else boldTitle">
+    @if (!isBoldTitle) {
       <mat-card-title>{{ title | i18n }}</mat-card-title>
-    </ng-container>
-
-    <ng-template #boldTitle>
+    } @else {
       <mat-card-title><h4>{{ title | i18n }}</h4></mat-card-title>
-    </ng-template>
+    }
+
 
   </mat-card-header>
   <mat-card-content class="info-card--content">
-    <div class="info-row" *ngFor="let item of list | ToKeyValue" [ngClass]="item.key === 'importNote' || item.key === 'tombStoneErrorDetail' || item.key === 'contractId' ? 'card-list--row--textField' : 'card-list--row'">
-      <p class="info-key" *ngIf="item.key !== 'policy'">{{ i18nPrefix + '.' + item.key | i18n }}</p>
-
-      <ng-container [ngSwitch]="item.key">
-        <ng-container *ngSwitchCase="'importState'">
-          <p class="info-value">
-            <app-chip [chipTextContent]="valueAsString(item.value)"></app-chip>
-          </p>
-        </ng-container>
-        <ng-container *ngSwitchCase="'importNote'">
-          <div class="info-value">
-          <div class="card-list--value--textField">
-            {{item.value}}
-          </div>
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'contractId'">
-          <div class="info-value">
-
-              {{item.value}}
-
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'policy'">
-        </ng-container>
-        <ng-container *ngSwitchCase="'tombStoneErrorDetail'">
-          <div class="info-value mt-1">
-            <div class="card-list--value--textField text-error">
+    @for (item of list | ToKeyValue; track item) {
+      <div class="info-row" [ngClass]="item.key === 'importNote' || item.key === 'tombStoneErrorDetail' || item.key === 'contractId' ? 'card-list--row--textField' : 'card-list--row'">
+        @if (item.key !== 'policy') {
+          <p class="info-key">{{ i18nPrefix + '.' + item.key | i18n }}</p>
+        }
+        @switch (item.key) {
+          @case ('importState') {
+            <p class="info-value">
+              <app-chip [chipTextContent]="valueAsString(item.value)"></app-chip>
+            </p>
+          }
+          @case ('importNote') {
+            <div class="info-value">
+              <div class="card-list--value--textField">
+                {{item.value}}
+              </div>
+            </div>
+          }
+          @case ('contractId') {
+            <div class="info-value">
               {{item.value}}
             </div>
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'manufacturingCountry'">
-          <p class="info-value">
-            {{ item.value | autoFormat }}
-            <app-country-flag-generator [countryCode]="valueAsString(item.value)"></app-country-flag-generator>
-
-          </p>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-          <p class="info-value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
-        </ng-container>
-      </ng-container>
-
-    </div>
+          }
+          @case ('policy') {
+          }
+          @case ('tombStoneErrorDetail') {
+            <div class="info-value mt-1">
+              <div class="card-list--value--textField text-error">
+                {{item.value}}
+              </div>
+            </div>
+          }
+          @case ('manufacturingCountry') {
+            <p class="info-value">
+              {{ item.value | autoFormat }}
+              <app-country-flag-generator [countryCode]="valueAsString(item.value)"></app-country-flag-generator>
+            </p>
+          }
+          @default {
+            <p class="info-value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
+          }
+        }
+      </div>
+    }
   </mat-card-content>
 </mat-card>

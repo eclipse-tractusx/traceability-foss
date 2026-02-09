@@ -44,6 +44,7 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-notification-edit',
   templateUrl: './notification-edit.component.html',
   styleUrls: [ './notification-edit.component.scss' ],

@@ -31,6 +31,7 @@ import { BpnConfig } from '@page/admin/core/admin.model';
 import { AdminModule } from '@page/admin/admin.module';
 
 @Component({
+  standalone: false,
   selector: '',
   template:
     '<app-toast-container></app-toast-container><app-save-bpn-config-modal [updateCall]="call"></app-save-bpn-config-modal>',

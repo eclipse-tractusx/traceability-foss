@@ -22,6 +22,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-card-list',
   templateUrl: './card-list.component.html',
   styleUrls: [ './card-list.component.scss' ],

@@ -25,6 +25,7 @@ import { DigitalTwinPartAssembler } from '@shared/assembler/digital-twin-part.as
 
 
 @Component({
+  standalone: false,
   selector: 'app-digital-twin-part-detail',
   templateUrl: './digital-twin-part-detail.component.html',
   styleUrls: ['./digital-twin-part-detail.component.scss']

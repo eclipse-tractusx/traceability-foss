@@ -29,6 +29,7 @@ import { of } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-autocomplete-chip-input',
   templateUrl: './autocomplete-chip-input.component.html',
   styleUrls: [ './autocomplete-chip-input.component.scss' ],

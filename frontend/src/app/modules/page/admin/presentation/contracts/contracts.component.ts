@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-contracts',
   templateUrl: './contracts.component.html',
   styleUrls: [],

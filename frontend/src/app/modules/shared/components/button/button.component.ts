@@ -26,6 +26,7 @@ import { TableType } from '@shared/components/multi-select-autocomplete/table-ty
 type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'miniFab';
 
 @Component({
+  standalone: false,
   selector: 'app-button',
   templateUrl: './button.component.html',
 })

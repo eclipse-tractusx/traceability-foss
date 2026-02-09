@@ -42,6 +42,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, tap } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-tree',
   template: '',
   encapsulation: ViewEncapsulation.None,

@@ -26,9 +26,9 @@ import { Pagination } from '@core/model/pagination.model';
 import { DigitalTwinPartResponse } from '@page/digital-twin-part/model/digitalTwinPart.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TableEventConfig } from '@shared/components/table/table.model';
-import { Pipe, PipeTransform } from '@angular/core';
+import { NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'i18n' })
+@Pipe({ standalone: false,  name: 'i18n' })
 class MockI18nPipe implements PipeTransform {
   transform(value: string): string {
     return value;
@@ -62,6 +62,7 @@ describe('DigitalTwinPartComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [DigitalTwinPartComponent, MockI18nPipe],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: DigitalTwinPartFacade, useValue: facadeMock },
         { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) }

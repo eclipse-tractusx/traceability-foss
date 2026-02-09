@@ -19,54 +19,52 @@ SPDX-License-Identifier: Apache-2.0
 <form [formGroup]="formGroup" class="advanced-filter-wrapper">
   <!-- Outer loop: each row -->
   <div class="filter-container">
-    <ng-container *ngFor="let row of advancedFilters">
-
+    @for (row of advancedFilters; track row) {
       <!-- Row wrapper -->
       <div class="advanced-filter-inputs-wrapper">
         <!-- Inner loop: each filter in the row -->
-        <ng-container *ngFor="let filter of row">
-          <ng-container [ngSwitch]="filter.component">
-
+        @for (filter of row; track filter) {
+          @switch (filter.component) {
             <!-- Chip input component -->
-            <app-autocomplete-chip-input
-              *ngSwitchCase="'chip'"
-              class="input-style"
-              [filterName]="filter.filterName"
-              [tableType]="tableType"
-              [parentFormGroup]="formGroup"
-              [parentControlName]="filter.controlName"
-              [attr.data-testId]="filter.controlName + '-input'"
-            >
-            </app-autocomplete-chip-input>
-
+            @case ('chip') {
+              <app-autocomplete-chip-input
+                class="input-style"
+                [filterName]="filter.filterName"
+                [tableType]="tableType"
+                [parentFormGroup]="formGroup"
+                [parentControlName]="filter.controlName"
+                [attr.data-testId]="filter.controlName + '-input'"
+                >
+              </app-autocomplete-chip-input>
+            }
             <!-- Autocomplete input component -->
-            <app-autocomplete-input
-              *ngSwitchCase="'autocomplete'"
-              class="input-style"
-              [filterName]="filter.filterName"
-              [tableType]="tableType"
-              [parentFormGroup]="formGroup"
-              [parentControlName]="filter.controlName"
-              [attr.data-testId]="filter.controlName + '-input'"
-            >
-            </app-autocomplete-input>
-
+            @case ('autocomplete') {
+              <app-autocomplete-input
+                class="input-style"
+                [filterName]="filter.filterName"
+                [tableType]="tableType"
+                [parentFormGroup]="formGroup"
+                [parentControlName]="filter.controlName"
+                [attr.data-testId]="filter.controlName + '-input'"
+                >
+              </app-autocomplete-input>
+            }
             <!-- Datepicker input component -->
-            <app-datepicker-input
-              *ngSwitchCase="'datepicker'"
-              class="input-style"
-              [filterName]="filter.filterName"
-              [tableType]="tableType"
-              [parentFormGroup]="formGroup"
-              [parentControlName]="filter.controlName"
-              [attr.data-testId]="filter.controlName + '-input'"
-            >
-            </app-datepicker-input>
-
-          </ng-container>
-        </ng-container>
+            @case ('datepicker') {
+              <app-datepicker-input
+                class="input-style"
+                [filterName]="filter.filterName"
+                [tableType]="tableType"
+                [parentFormGroup]="formGroup"
+                [parentControlName]="filter.controlName"
+                [attr.data-testId]="filter.controlName + '-input'"
+                >
+              </app-datepicker-input>
+            }
+          }
+        }
       </div>
-    </ng-container>
+    }
   </div>
 
   <div class="button-row">
@@ -78,7 +76,7 @@ SPDX-License-Identifier: Apache-2.0
       [useGap]="true"
       data-testid="advanced-search-clear-button"
       (click)="clearSearch()"
-    >
+      >
       {{ 'actions.clearSearch' | i18n }}
     </app-button>
 
@@ -92,7 +90,7 @@ SPDX-License-Identifier: Apache-2.0
       data-testid="advanced-search-filter-button"
       (click)="search()"
       [isDisabled]="!enableSearchButton"
-    >
+      >
       {{ 'actions.applySearch' | i18n }}
     </app-button>
   </div>

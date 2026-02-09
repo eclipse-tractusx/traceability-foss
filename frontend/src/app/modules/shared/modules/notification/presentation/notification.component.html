@@ -25,59 +25,61 @@ SPDX-License-Identifier: Apache-2.0
   appTabAsPanel
   mat-stretch-tabs="false"
   mat-align-tabs="start"
->
+  >
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="mr-2">send
-      </mat-icon
-      >
-      <span [id]="queuedAndRequestedTabLabelId">{{ translationContext + '.tabs.queuedAndRequested' | i18n }} </span>
-    </ng-template>
-    <app-notifications-tab
-      *ngIf="menuActionsConfig"
-      [tableHeader]="'pageTitle.sentQualityNotification'"
-      [tableHeaderMenuEnabled]="true"
-      [notificationsView$]="queuedAndRequestedNotifications$"
-      [labelId]="queuedAndRequestedTabLabelId"
-      [translationContext]=translationContext
-      [menuActionsConfig]="menuActionsConfig"
-      [autocompleteEnabled]="true"
-      [tableType]="TableType.SENT_NOTIFICATION"
-      [optionalColumns]="queuedAndRequestedOptionalColumns"
-      [sortableColumns]="queuedAndRequestedSortableColumns"
-      [multiSortList]="queuedAndRequestedMultiSortList"
-      [tableSettingsEnabled]="true"
-      (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
-      (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
-      (selected)="selected.emit($event)"
-      (multiSelect)="currentSelectedItems$.next($event)"
-      (editNotificationClicked)="editNotificationClicked.emit($event)"
-    ></app-notifications-tab>
-  </mat-tab>
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <mat-icon class="mr-2">drafts
-      </mat-icon
-      >
-      <span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
-    </ng-template>
-    <app-notifications-tab
-      *ngIf="menuActionsConfig"
-      [tableHeader]="'pageTitle.receivedQualityNotification'"
-      [tableHeaderMenuEnabled]="true"
-      [notificationsView$]="receivedNotifications$"
-      [labelId]="receivedTabLabelId"
-      [translationContext]="'commonAlert'"
-      [tableType]="TableType.RECEIVED_NOTIFICATION"
-      [menuActionsConfig]="menuActionsConfig"
-      [optionalColumns]="receivedOptionalColumns"
-      [autocompleteEnabled]="true"
-      [sortableColumns]="receivedSortableColumns"
-      [multiSortList]="receivedMultiSortList"
-      [tableSettingsEnabled]="true"
-      (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
-      (selected)="selected.emit($event)"
-      (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
-    ></app-notifications-tab>
-  </mat-tab>
-</mat-tab-group>
+        </mat-icon
+        >
+        <span [id]="queuedAndRequestedTabLabelId">{{ translationContext + '.tabs.queuedAndRequested' | i18n }} </span>
+      </ng-template>
+      @if (menuActionsConfig) {
+        <app-notifications-tab
+          [tableHeader]="'pageTitle.sentQualityNotification'"
+          [tableHeaderMenuEnabled]="true"
+          [notificationsView$]="queuedAndRequestedNotifications$"
+          [labelId]="queuedAndRequestedTabLabelId"
+          [translationContext]=translationContext
+          [menuActionsConfig]="menuActionsConfig"
+          [autocompleteEnabled]="true"
+          [tableType]="TableType.SENT_NOTIFICATION"
+          [optionalColumns]="queuedAndRequestedOptionalColumns"
+          [sortableColumns]="queuedAndRequestedSortableColumns"
+          [multiSortList]="queuedAndRequestedMultiSortList"
+          [tableSettingsEnabled]="true"
+          (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
+          (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
+          (selected)="selected.emit($event)"
+          (multiSelect)="currentSelectedItems$.next($event)"
+          (editNotificationClicked)="editNotificationClicked.emit($event)"
+        ></app-notifications-tab>
+      }
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="mr-2">drafts
+          </mat-icon
+          >
+          <span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
+        </ng-template>
+        @if (menuActionsConfig) {
+          <app-notifications-tab
+            [tableHeader]="'pageTitle.receivedQualityNotification'"
+            [tableHeaderMenuEnabled]="true"
+            [notificationsView$]="receivedNotifications$"
+            [labelId]="receivedTabLabelId"
+            [translationContext]="'commonAlert'"
+            [tableType]="TableType.RECEIVED_NOTIFICATION"
+            [menuActionsConfig]="menuActionsConfig"
+            [optionalColumns]="receivedOptionalColumns"
+            [autocompleteEnabled]="true"
+            [sortableColumns]="receivedSortableColumns"
+            [multiSortList]="receivedMultiSortList"
+            [tableSettingsEnabled]="true"
+            (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
+            (selected)="selected.emit($event)"
+            (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
+          ></app-notifications-tab>
+        }
+      </mat-tab>
+    </mat-tab-group>

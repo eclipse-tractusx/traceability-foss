@@ -59,7 +59,7 @@ SPDX-License-Identifier: Apache-2.0
     matTooltipPosition="above"
     [class.mdc-tooltip--multiline]="true"
     [matTooltipShowDelay]="500"
-  >
+    >
     <mat-spinner diameter="25"></mat-spinner>
   </div>
 </ng-template>
@@ -69,12 +69,23 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #statusTmp let-status="value" let-notification="row">
-  <ng-container
-    *ngIf="!notificationProcessingService.notificationIdsInLoadingState.has(notification.id); else miniLoaderTmp">
-    <div *ngIf="status" class="notification-status notification-status--{{ status }}">
-      {{ translationContext + '.status.' + status | i18n }}
+  @if (!notificationProcessingService.notificationIdsInLoadingState.has(notification.id)) {
+    @if (status) {
+      <div class="notification-status notification-status--{{ status }}">
+        {{ translationContext + '.status.' + status | i18n }}
+      </div>
+    }
+  } @else {
+    <div
+      matTooltip="{{ 'actions.notificationInProgress' | i18n}}"
+      matTooltipClass="table--header--tooltip"
+      matTooltipPosition="above"
+      [class.mdc-tooltip--multiline]="true"
+      [matTooltipShowDelay]="500"
+      >
+      <mat-spinner diameter="25"></mat-spinner>
     </div>
-  </ng-container>
+  }
 </ng-template>
 
 <ng-template #severityTmp let-severity="value">

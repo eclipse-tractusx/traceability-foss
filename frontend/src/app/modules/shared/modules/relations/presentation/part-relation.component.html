@@ -18,23 +18,25 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<div class="part-relation--header--navigation--container" *ngIf="showMiniMap">
-  <app-button
-    [color]="'primary'"
-    onkeydown="this.navigateBack()"
-    (click)="this.navigateBack()"
-  >
-    <div class="flex justify-between items-center">
-      <mat-icon class="mr-2">arrow_back</mat-icon>
-      {{ 'actions.goBack' | i18n }}
-    </div>
-  </app-button>
-</div>
+@if (showMiniMap) {
+  <div class="part-relation--header--navigation--container">
+    <app-button
+      [color]="'primary'"
+      onkeydown="this.navigateBack()"
+      (click)="this.navigateBack()"
+      >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">arrow_back</mat-icon>
+        {{ 'actions.goBack' | i18n }}
+      </div>
+    </app-button>
+  </div>
+}
 
-<ng-container *ngIf="this.rootPart$">
+@if (this.rootPart$) {
   <ng-container *viewContainer="this.rootPart$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp">
   </ng-container>
-</ng-container>
+}
 <ng-template #partRelationMainTmp let-partDetails="view">
   <div class="part-relation--button-container">
     <app-button
@@ -43,7 +45,7 @@ SPDX-License-Identifier: Apache-2.0
       [label]="'relation.decrease' | i18n"
       data-testid="tree--zoom__increase"
       color="primary"
-    >+
+      >+
     </app-button>
     <app-button
       onkeydown="increaseSize()"
@@ -51,7 +53,7 @@ SPDX-License-Identifier: Apache-2.0
       [label]="'relation.increase' | i18n"
       data-testid="tree--zoom__decrease"
       color="primary"
-    >-
+      >-
     </app-button>
   </div>
   <figure class="part-relation--container" data-testId="part-relation--test-id" [id]="htmlId"></figure>
@@ -71,12 +73,13 @@ SPDX-License-Identifier: Apache-2.0
     [htmlId]="htmlId"
     [direction]="'LEFT'"
   ></app-tree>
-  <figure
-    *ngIf="this.showMiniMap"
-    class="part-relation--minimap"
-    data-testId="part-relation--minimap--test-id"
-    [id]="htmlId + '--minimap'"
-  ></figure>
+  @if (this.showMiniMap) {
+    <figure
+      class="part-relation--minimap"
+      data-testId="part-relation--minimap--test-id"
+      [id]="htmlId + '--minimap'"
+    ></figure>
+  }
 </ng-template>
 
 <ng-template #errorTmp let-partDetails="view">

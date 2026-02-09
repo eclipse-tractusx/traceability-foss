@@ -8,6 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-asset-publisher',
   templateUrl: './asset-publisher.component.html',
   styleUrls: ['./asset-publisher.component.scss']

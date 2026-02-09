@@ -23,6 +23,7 @@ import { Component, Input } from '@angular/core';
 import { Notification } from '@shared/model/notification.model';
 
 @Component({
+  standalone: false,
   selector: 'app-notification-modal-content',
   templateUrl: './notification-modal-content.component.html',
 })

@@ -31,6 +31,7 @@ import { toGlobalSearchDigitalTwinFilter, toStructuredDigitalTwinFilter } from '
 import { Router } from '@angular/router';
 
 @Component({
+  standalone: false,
   selector: 'app-digital-twin-part',
   templateUrl: './digital-twin-part.component.html',
   styleUrls: ['./digital-twin-part.component.scss'],

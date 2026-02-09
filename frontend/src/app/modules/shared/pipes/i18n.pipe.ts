@@ -28,7 +28,7 @@ import { I18NextPipe, PipeOptions } from 'angular-i18next';
 
 // Currently we use a workaround (in languageswitcher component) so that the whole page gets refreshed when the user
 // is switching languages. This way we keep the performance and the pipe pure
-@Pipe({ name: 'i18n', pure: true })
+@Pipe({ standalone: false,  name: 'i18n', pure: true })
 export class I18nPipe implements PipeTransform {
   constructor(private readonly i18NextPipe: I18NextPipe) {
   }

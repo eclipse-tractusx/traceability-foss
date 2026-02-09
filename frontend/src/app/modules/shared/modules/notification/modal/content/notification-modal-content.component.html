@@ -25,9 +25,11 @@ SPDX-License-Identifier: Apache-2.0
       <app-notification-overview [notification]="notification" [showNotification]="false"></app-notification-overview>
     </mat-card-content>
   </mat-card>
-  <mat-card *ngIf="notification?.messages !== null && notification?.messages?.length > 0" class="max-h-74 overflow-y-scroll">
-    <mat-card-content>
-      <app-notification-reason [notificationMessages]="notification?.messages"></app-notification-reason>
-    </mat-card-content>
-  </mat-card>
+  @if (notification?.messages !== null && notification?.messages?.length > 0) {
+    <mat-card class="max-h-74 overflow-y-scroll">
+      <mat-card-content>
+        <app-notification-reason [notificationMessages]="notification?.messages"></app-notification-reason>
+      </mat-card-content>
+    </mat-card>
+  }
 </div>

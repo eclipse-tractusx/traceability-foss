@@ -34,7 +34,7 @@ import { StaticIdService } from '@shared/service/staticId.service';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 
-@Component({ selector: 'app-baseInput', template: '' })
+@Component({ standalone: false,  selector: 'app-baseInput', template: '' })
 export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
   @ViewChild('inputElement') inputElement: ElementRef<HTMLInputElement>;
   @Input() label = '';

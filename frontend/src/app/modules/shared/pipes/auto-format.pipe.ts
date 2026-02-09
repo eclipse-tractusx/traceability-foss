@@ -30,7 +30,7 @@ import { FormatDatePipe } from './format-date.pipe';
  * - CalendarDateModel - treat it as a calendar date object
  * - string - return as it is
  */
-@Pipe({ name: 'autoFormat', pure: false })
+@Pipe({ standalone: false,  name: 'autoFormat', pure: false })
 export class AutoFormatPipe implements PipeTransform {
   constructor(private readonly formatDatePipe: FormatDatePipe) {
   }
