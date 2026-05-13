@@ -18,10 +18,20 @@
 name: "[BE][FE][HELM] Lint and Test"
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     paths:
       - 'charts/**'
+
   workflow_dispatch:
+    inputs:
+      node_image:
+        description: 'kindest/node image for k8s kind cluster'
+        default: 'kindest/node:v1.27.3'
+        required: false
+        type: string
   workflow_call: # Trigger by another workflow
     inputs:
       node_image:
@@ -41,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
 
@@ -52,26 +62,30 @@ jobs:
           version: v0.20.0
 
       - name: Build & push Image App to KinD
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.APP_NAME}}:${{ env.TAG }}
+          secrets: |
+            "PACKAGES_ACCESS_USERNAME=${{ secrets.PACKAGES_ACCESS_USERNAME }}"
+            "PACKAGES_ACCESS_TOKEN=${{ secrets.PACKAGES_ACCESS_TOKEN }}"
 
       - name: Build & push Image Frontend to KinD
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
-          context: ./frontend
+          context: .
+          file: ./frontend/Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.APP_FRONTEND_NAME }}:${{ env.TAG }}
 
       - name: Set up Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v4
         with:
           version: v3.9.3
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.4.0
+        uses: helm/chart-testing-action@v2.6.1
 
       - name: Run chart-testing (list-changed)
         id: list-changed
