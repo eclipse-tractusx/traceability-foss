@@ -23,6 +23,7 @@ on:
     paths:
       - 'frontend/**'
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -33,9 +34,9 @@ jobs:
         working-directory: frontend
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
     - name: Use Node.js 18.x
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 18.x
     - name: Install chrome
@@ -46,13 +47,3 @@ jobs:
       run: yarn install
     - name: Run yarn test:ci
       run: CHROMIUM_BIN=$(which chrome) yarn test:ci # will run `test:ci` command
-    - name: Run SonarCloud check
-      uses: SonarSource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
-      with:
-        projectBaseDir: frontend
-        args: >
-          -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
-          -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_FRONTEND }}

@@ -1,4 +1,4 @@
-#    Copyright (c) 2023 Contributors to the Eclipse Foundation
+#    Copyright (c) 2024 Contributors to the Eclipse Foundation
 #
 #    See the NOTICE file(s) distributed with this work for additional
 #    information regarding copyright ownership.
@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "[BE][TEST][E2E] Cucumber"
+name: "[BE][TEST][E2E] Cucumber - Association"
 
 on:
   workflow_dispatch: # Trigger manually
@@ -45,12 +45,19 @@ jobs:
       - name: Download Feature Files
         id: download
         env:
-          JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
-          JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
+          JIRA_USERNAME: ${{ secrets.ASSOCIATION_TX_JIRA_USERNAME }}
+          JIRA_PASSWORD: ${{ secrets.ASSOCIATION_TX_JIRA_PASSWORD }}
+        working-directory: tx-cucumber-tests
           # JIRA filter 11349: project = "[TR] FOSS - Open Source (Impl.)" AND issuetype = Test AND "Test Type" = Cucumber AND status = Ready AND labels = INTEGRATION_TEST AND (environment ~ DEV OR environment ~ "INT")
           # Downloads all feature files of cucumber tests inside TRI project
         run: |
-          export HTTP_RESULT=$(curl -s --show-error -w "%{http_code}" -u $JIRA_USERNAME:$JIRA_PASSWORD "https://jira.catena-x.net/rest/raven/1.0/export/test?filter=11711&fz=true" -o tx-cucumber-tests/features.zip)
+          token=$(curl -H "Content-Type: application/json" -X POST \
+          --data "{ \"client_id\": \"$JIRA_USERNAME\",\"client_secret\": \"$JIRA_PASSWORD\" }" \
+          https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
+
+          export HTTP_RESULT=$(curl -s --show-error -w "%{http_code}" --header "Authorization: Bearer $token" \
+          "https://xray.cloud.getxray.app/api/v2/export/cucumber?filter=10005&fz=true" -o features.zip)
+
           [[ $HTTP_RESULT == 200 || $HTTP_RESULT == 400 ]]
           echo "::set-output name=http_response::$HTTP_RESULT"
 
@@ -60,31 +67,36 @@ jobs:
       # Required step due to fact that jira will name feature files differently with each feature added and that will cause duplicate test runs
       - name: Cleanup repository feature files
         if: ${{ steps.download.outputs.http_response == '200' }}
-        #working-directory: tx-cucumber-tests
+        working-directory: tx-cucumber-tests
         run: |
-          rm -r tx-cucumber-tests/src/test/resources/features/*
+          rm -r src/test/resources/features/*
 
       - name: Build with Maven
         if: ${{ steps.download.outputs.http_response == '200' }}
         env:
-          KEYCLOAK_HOST: ${{ secrets.KEYCLOAK_HOST }}
-          SUPERVISOR_CLIENT_ID: ${{ secrets.SUPERVISOR_CLIENT_ID }}
-          SUPERVISOR_PASSWORD: ${{ secrets.SUPERVISOR_PASSWORD }}
-          E2E_TXA_HOST: ${{ secrets.E2E_TXA_HOST }}
-          E2E_TXB_HOST: ${{ secrets.E2E_TXB_HOST }}
-        #working-directory: tx-cucumber-tests
+          ASSOCIATION_KEYCLOAK_HOST: ${{ secrets.ASSOCIATION_KEYCLOAK_HOST }}
+          ASSOCIATION_SUPERVISOR_TX_A_CLIENT_ID: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_A_CLIENT_ID }}
+          ASSOCIATION_SUPERVISOR_TX_A_PASSWORD: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_A_PASSWORD }}
+          ASSOCIATION_SUPERVISOR_TX_B_CLIENT_ID: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_B_CLIENT_ID }}
+          ASSOCIATION_SUPERVISOR_TX_B_PASSWORD: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_B_PASSWORD }}
+          ASSOCIATION_E2E_TXA_HOST: ${{ secrets.ASSOCIATION_E2E_TXA_HOST }}
+          ASSOCIATION_E2E_TXB_HOST: ${{ secrets.ASSOCIATION_E2E_TXB_HOST }}
         run: |
           unzip -o tx-cucumber-tests/features.zip -d tx-cucumber-tests/src/test/resources/features
-          mvn -pl tx-models,tx-cucumber-tests --batch-mode clean install  -D"cucumber.filter.tags"="not @Ignore and @INTEGRATION_TEST"
+          mvn -pl tx-models,tx-cucumber-tests --batch-mode clean install  -D"cucumber.filter.tags"="@trace-x-automated" -P association
 
       - name: Submit results to Xray
         if: ${{ always() && steps.download.outputs.http_response == '200' }}
         env:
-          JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
-          JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
+          JIRA_USERNAME: ${{ secrets.ASSOCIATION_TX_JIRA_USERNAME }}
+          JIRA_PASSWORD: ${{ secrets.ASSOCIATION_TX_JIRA_PASSWORD }}
         run: |
+          token=$(curl -H "Content-Type: application/json" -X POST \
+          --data "{ \"client_id\": \"$JIRA_USERNAME\",\"client_secret\": \"$JIRA_PASSWORD\" }" \
+          https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
+
           curl --request POST \
-          -u $JIRA_USERNAME:$JIRA_PASSWORD \
           --header 'Content-Type: application/json' \
+          --header "Authorization: Bearer $token" \
           --data-binary '@tx-cucumber-tests/report.json' \
-          "https://jira.catena-x.net/rest/raven/1.0/import/execution/cucumber"
+          "https://xray.cloud.getxray.app/api/v2/import/execution/cucumber"
