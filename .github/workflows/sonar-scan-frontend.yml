@@ -21,6 +21,7 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  pull_request:
   schedule:
     - cron: "0 0 * * *"
 
@@ -33,13 +34,13 @@ jobs:
         working-directory: frontend
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 18.x
       - name: Install chrome
-        uses: browser-actions/setup-chrome@latest
+        uses: browser-actions/setup-chrome@2e1d749697dd1612b833dba4a722266286fbefcd # v2.1.2
       - name: Install yarn
         run: npm install yarn -g
       - name: Install packages
@@ -47,7 +48,7 @@ jobs:
       - name: Run yarn test:ci
         run: CHROMIUM_BIN=$(which chrome) yarn test:ci # will run `test:ci` command
       - name: Run SonarCloud check
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@ffc3010689be73b8e5ae0c57ce35968afd7909e8 # v5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}

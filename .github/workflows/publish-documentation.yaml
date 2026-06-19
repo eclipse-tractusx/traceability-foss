@@ -19,6 +19,9 @@ name: "[BE][FE][DOCUMENTATION] Publish documentation"
 
 on:
   workflow_dispatch: # Trigger manually
+  pull_request:
+    paths:
+      - 'docs/**'
   push:
     branches:
       - main
@@ -34,61 +37,85 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
 
       - name: Setup Graphviz
-        uses: ts-graphviz/setup-graphviz@v1
+        uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Cache maven packages
-        uses: actions/cache@v3
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
 
       - name: Build with Maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: |
           mvn -f docs/pom.xml --batch-mode generate-resources
+
       - name: Install Asciidoctor Reducer
         run: |
           sudo gem install asciidoctor-reducer
+
       - name: Reduce docs
         run: |
           echo $LANG
           locale
           asciidoctor-reducer -o docs/target/adminguide.adoc docs/src/docs/administration/administration-guide.adoc
           asciidoctor-reducer -o docs/target/arc42.adoc docs/src/docs/arc42/full.adoc
+          asciidoctor-reducer -o docs/target/user-manual.adoc docs/src/docs/user/user-manual.adoc
+
+      - name: Cache plantuml jar
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: plantuml.jar
+          key: ${{ runner.os }}-file-${{ hashFiles('plantuml.jar') }}
+
       - name: Download PlantUML jar
         run: |
           wget -O plantuml.jar https://sourceforge.net/projects/plantuml/files/plantuml.jar/download
+
       - name: Place PlantUML jar in specific path
         run: |
           mv plantuml.jar docs/src/diagram-replacer/
+
       - name: Extract PNG-Images with PlantUML and replace PlantUML Code inside docs with PNG-Images
         working-directory: docs/src/diagram-replacer/
         run: |
           node extract.js
           node replace.js
+
       - name: Convert to Markdown
         run: |
           npx downdoc -o docs/target/generated-docs/adminguide.md docs/src/diagram-replacer/generated-adocs/adminguide.adoc
           npx downdoc -o docs/target/generated-docs/arc42.md docs/src/diagram-replacer/generated-adocs/arc42.adoc
-          npx downdoc -o docs/target/generated-docs/user-manual.md docs/src/docs/user/user-manual.adoc
+          npx downdoc -o docs/target/generated-docs/user-manual.md docs/src/diagram-replacer/generated-adocs/user-manual.adoc
+
+      - name: Upload Markdown
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          path: |
+            docs/target/generated-docs/arc42.md
+            docs/target/generated-docs/adminguide.md
+            docs/target/generated-docs/user-manual.md
+
       - name: MD files post-processing
         working-directory: docs/src/post-processing/
         run: |
@@ -97,18 +124,38 @@ jobs:
           node fix_no_emphasis.js
           node fix_https_links.js
           node fix_relative_links.js https://$GITHUB_REPOSITORY_OWNER.github.io/$REPO/docs
+
       - name: MD linting
         run: |
-          npm install markdownlint-cli2
+          npm install markdownlint-cli2@0.11.0
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/adminguide.md
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/arc42.md
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/user-manual.md
+
       - name: Move assets to target directory
         run: |
           mv docs/src/diagram-replacer/assets/ docs/target/generated-docs/assets/
-      - name: GitHub Pages action
-        uses: peaceiris/actions-gh-pages@v3.9.3
+
+      - name: Generate Swagger UI
+        uses: Legion2/swagger-ui-action@eff65dc3f193f0a749872be82f74baa35be0797d # v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          output: swagger-ui
+          spec-file: docs/api/traceability-foss-backend.json
+
+      - name: Update documentation on GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./docs/target/generated-docs"
           destination_dir: "docs"
+
+      - name: Deploy Swagger UI to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "swagger-ui"
+          destination_dir: "docs/swagger-ui"
