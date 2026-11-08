@@ -41,15 +41,15 @@ jobs:
     # Install YARN dependencies, cache them correctly
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20.x
 
       - name: Run yarn install
-        uses: Borales/actions-yarn@v5
+        uses: Borales/actions-yarn@3766bb1335b98fb13c60eaf358fe20811b730a88 # v5.0.0
         with:
           cmd: install # will run `yarn install` command
 
@@ -79,7 +79,7 @@ jobs:
           rm -f features.zip
 
       - name: Save cypress/e2e folder
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: cypress - e2e
           if-no-files-found: error
@@ -102,16 +102,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Download the cypress/e2e folder
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: cypress - e2e
           path: frontend/cypress/e2e
 
       - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20.x
 
@@ -119,7 +119,7 @@ jobs:
         run: npm install -g @angular/cli
 
       - name: Run yarn install
-        uses: Borales/actions-yarn@v5
+        uses: Borales/actions-yarn@3766bb1335b98fb13c60eaf358fe20811b730a88 # v5.0.0
         with:
           cmd: install # will run `yarn install` command
           dir: frontend
@@ -133,7 +133,7 @@ jobs:
 
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.7.16 # use the explicit version number
+        uses: cypress-io/github-action@108b8684ae52e735ff7891524cbffbcd4be5b19f # v6.7.16 # use the explicit version number
         with:
           browser: chrome
           working-directory: frontend
@@ -166,7 +166,7 @@ jobs:
 
       - name: Archive cypress artifacts
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: cypress generated files - chrome
           path: |
